@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import withSyles from '@material-ui/core/styles/withStyles';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import {fade} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
@@ -15,34 +14,149 @@ const styles = theme => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
+    paddingLeft: theme.spacing(1),
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.only('xs')]: {
+      marginLeft: theme.spacing(0.5),
+      width: 'auto',
+      height: '80%'
+    },
+    [theme.breakpoints.only('sm')]: {
+      marginLeft: theme.spacing(0.5),
+      width: 'auto',
+      height: '85%'
+    },
+    [theme.breakpoints.only('md')]: {
       marginLeft: theme.spacing(1),
       width: 'auto',
+      height: '90%'
+    },
+    [theme.breakpoints.only('lg')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+      height: '95%'
+    },
+    [theme.breakpoints.only('xl')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+      height: '100%'
     },
   },
   searchIcon: {
-    width: theme.spacing(7),
-    height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    [theme.breakpoints.only('xs')]: {
+      width: theme.spacing(3),
+      height: '100%',
+      margin: 'auto'
+    },
+    [theme.breakpoints.only('sm')]: {
+      width: theme.spacing(4),
+      height: '100%',
+      margin: 'auto'
+    },
+    [theme.breakpoints.only('md')]: {
+      width: theme.spacing(5),
+      height: '100%',
+      margin: 'auto'
+    },
+    [theme.breakpoints.only('lg')]: {
+      width: theme.spacing(6),
+      height: '100%',
+      margin: 'auto'
+    },
+    [theme.breakpoints.only('xl')]: {
+      width: theme.spacing(7),
+      height: '100%',
+      margin: 'auto'
+    },
   },
   inputRoot: {
     color: 'inherit',
+    [theme.breakpoints.only('xs')]: {
+      height: '60%'
+    },
+    [theme.breakpoints.only('sm')]: {
+      height: '70%'
+    },
+    [theme.breakpoints.only('md')]: {
+      height: '80%'
+    },
+    [theme.breakpoints.only('lg')]: {
+      height: '90%'
+    },
+    [theme.breakpoints.only('xl')]: {
+      height: '100%'
+    },
+  },
+  navhomelink: {
+    color: 'inherit',
+    [theme.breakpoints.only('xs')]: {
+      fontSize: '60%'
+    },
+    [theme.breakpoints.only('sm')]: {
+      fontSize: '70%'
+    },
+    [theme.breakpoints.only('md')]: {
+      fontSize: '80%'
+    },
+    [theme.breakpoints.only('lg')]: {
+      fontSize: '90%'
+    },
+    [theme.breakpoints.only('xl')]: {
+      fontSize: '100%'
+    },
   },
   inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
     transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: 120,
+    [theme.breakpoints.only('xs')]: {
+      padding: theme.spacing(1, 1, 1, 3),
+      height: '80%',
+      fontSize: '80%',
+      width: 80,
+      '&:focus': {
+        width: 120,
+      },
+    },
+    [theme.breakpoints.only('sm')]: {
+      padding: theme.spacing(1, 1, 1, 4),
+      height: '85%',
+      fontSize: '85%',
+      width: 90,
+      '&:focus': {
+        width: 140,
+      },
+    },
+    [theme.breakpoints.only('md')]: {
+      padding: theme.spacing(1, 1, 1, 5),
+      height: '90%',
+      fontSize: '90%',
+      width: 100,
+      '&:focus': {
+        width: 160,
+      },
+    },
+    [theme.breakpoints.only('lg')]: {
+      padding: theme.spacing(1, 1, 1, 6),
+      height: '95%',
+      fontSize: '95%',
+      width: 140,
+      '&:focus': {
+        width: 180,
+      },
+    },
+    [theme.breakpoints.only('xl')]: {
+      padding: theme.spacing(1, 1, 1, 7),
+      height: '100%',
+      fontSize: '100%',
+      width: 160,
       '&:focus': {
         width: 200,
       },
@@ -88,7 +202,7 @@ class Navbar extends Component {
         return (
             <AppBar className={newClass}>
                 <Toolbar className="nav-container">
-                    <Button color="inherit" component={Link} to="/"><h2>World news</h2></Button>
+                    <Link className={classes.navhomelink} to="/"><h2>World news</h2></Link>
                     <form className={classes.search} onSubmit={this.submitSearch}>
                         <Link id='linktores' to={{ pathname:'/results', search: search, state: {details:{}} }} />
                         <div className={classes.searchIcon}>

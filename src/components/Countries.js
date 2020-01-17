@@ -100,7 +100,7 @@ export default function ControlledOpenSelect({country,category,urlTo,search}) {
     <CardContent 
       className={classes.noPad}>
       <Button className={classes.button} onClick={handleOpen}>
-        News by country:
+        <b>News by country:</b>
       </Button>
       <FormControl className={classes.formControl}>
         <InputLabel id="demo-controlled-open-select-label">Countries</InputLabel>

@@ -12,6 +12,7 @@ import NewsSkeleton from '../components/NewsSkeleton';
 // mui stuff
 import Typography  from '@material-ui/core/Typography';
 import withSyles from '@material-ui/core/styles/withStyles';
+import Hidden from '@material-ui/core/Hidden';
 
 //newsapi
 const NewsAPI = require('newsapi');
@@ -295,17 +296,19 @@ class results extends Component {
         let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream}/>):(<NewsSkeleton />)
         return (
             <Grid container spacing={2}>
-                <Grid item sm={9} xs={12}>
+                <Grid item md={10} sm={9} xs={12}>
                     {totalResults && !loading?(
                     <Typography className={classes.center}  variant='body2' color='textSecondary'>{totalResults} results for <em>{this.props.location.search.split('?')[1]}</em></Typography>
                    ):(!loading?(<Typography className={classes.full}  variant='h5' color='textSecondary'>{totalResults} results for <em>{this.props.location.search.split('?')[1]}</em></Typography>):(''))} 
                    {recentScreamMarkUp}
                 </Grid>
-                <Grid item sm={3} xs={12}>
-                    <DetailSearch className={classes.full}  onDetChange={(dets) => this.onDetChange(dets)} />
-                    <Categories className={classes.full} search={search} category={category} country={country} urlTo={'/results'+urlCat} />
-                    <Countries className={classes.full} search={search}  category={category} country={country}  urlTo={'/results'+urlCou} />
-                </Grid>
+                <Hidden xsDown>
+                    <Grid item md={2} sm={3} xs={12}>
+                        <DetailSearch className={classes.full}  onDetChange={(dets) => this.onDetChange(dets)} />
+                        <Categories className={classes.full} search={search} category={category} country={country} urlTo={'/results'+urlCat} />
+                        <Countries className={classes.full} search={search}  category={category} country={country}  urlTo={'/results'+urlCou} />
+                    </Grid>
+                </Hidden>
             </Grid>
         )
     }

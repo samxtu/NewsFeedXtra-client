@@ -7,6 +7,7 @@ import Scream from '../components/Scream';
 import Categories from '../components/Categories';
 import Countries from '../components/Countries';
 import NewsSkeleton from '../components/NewsSkeleton';
+import Hidden from '@material-ui/core/Hidden';
 
 // mui stuff
 const NewsAPI = require('newsapi');
@@ -101,13 +102,15 @@ class country extends Component {
         let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream}/>):(<NewsSkeleton />)
         return (
             <Grid container spacing={2}>
-                <Grid item sm={10} xs={12}>
+                <Grid item md={10} sm={9} xs={12}>
                     {recentScreamMarkUp}
                 </Grid>
-                <Grid item sm={2} xs={12}>
-                    <Categories  category={this.state.category} country={this.state.country}  urlTo={`/country/${this.state.country}`} />
-                    <Countries  category={this.state.category} country={this.state.country}  urlTo='/country' />
-                </Grid>
+                <Hidden xsDown>
+                    <Grid item md={2} sm={3} xs={12}>
+                        <Categories  category={this.state.category} country={this.state.country}  urlTo={`/country/${this.state.country}`} />
+                        <Countries  category={this.state.category} country={this.state.country}  urlTo='/country' />
+                    </Grid>
+                </Hidden>
             </Grid>
         )
     }

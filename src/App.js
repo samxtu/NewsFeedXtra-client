@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'fixed',
     flexGrow: 1,
-    zIndex: theme.zIndex.drawer + 1,
     width: "100%",
   }
 }));
@@ -43,7 +42,7 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <div className={classes.root}>
         <Router>
-          <Navbar navatarClass={classes.navatar} newClass={classes.appBar} />
+          <Navbar newClass={classes.appBar} />
         
           <div className="container">
             <Switch>

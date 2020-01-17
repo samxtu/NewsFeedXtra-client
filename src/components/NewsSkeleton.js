@@ -14,7 +14,21 @@ const styles = theme => ({
         position: 'relative',
         display: 'flex',
         marginBottom: 1,
-        height: 220
+        [theme.breakpoints.only('xs')]: {
+          height: 60,
+        },
+        [theme.breakpoints.only('sm')]: {
+          height: 100,
+        },
+        [theme.breakpoints.only('md')]: {
+          height: 140,
+        },
+        [theme.breakpoints.only('lg')]: {
+          height: 180,
+        },
+        [theme.breakpoints.only('xl')]: {
+          height: 220,
+        },
     },
     content: { 
         width: '100%',
@@ -23,7 +37,21 @@ const styles = theme => ({
         zIndex: 110
     },
     image: {
-        minWidth: 150
+        [theme.breakpoints.only('xs')]: {
+          minWidth: 90,
+        },
+        [theme.breakpoints.only('sm')]: {
+          minWidth: 120,
+        },
+        [theme.breakpoints.only('md')]: {
+          minWidth: 150,
+        },
+        [theme.breakpoints.only('lg')]: {
+          minWidth: 150,
+        },
+        [theme.breakpoints.only('xl')]: {
+          minWidth: 150,
+        },
     },
     topdiv: {
       padding: '0 0px 10px 2px',
