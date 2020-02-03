@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.3147b840.chunk.css",
-    "main.js": "/static/js/main.ad56ed09.chunk.js",
-    "main.js.map": "/static/js/main.ad56ed09.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.c5ac5c46.js",
-    "runtime-main.js.map": "/static/js/runtime-main.c5ac5c46.js.map",
-    "static/js/2.29daf95f.chunk.js": "/static/js/2.29daf95f.chunk.js",
-    "static/js/2.29daf95f.chunk.js.map": "/static/js/2.29daf95f.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.8ce3bfdbb4736999942e81383ba4886d.js": "/precache-manifest.8ce3bfdbb4736999942e81383ba4886d.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.3147b840.chunk.css.map": "/static/css/main.3147b840.chunk.css.map",
-    "static/js/2.29daf95f.chunk.js.LICENSE": "/static/js/2.29daf95f.chunk.js.LICENSE",
-    "static/media/no-image.jpg": "/static/media/no-image.294de88d.jpg"
+    "main.css": "/worldnews-client/static/css/main.3147b840.chunk.css",
+    "main.js": "/worldnews-client/static/js/main.04b9b6e5.chunk.js",
+    "main.js.map": "/worldnews-client/static/js/main.04b9b6e5.chunk.js.map",
+    "runtime-main.js": "/worldnews-client/static/js/runtime-main.55663104.js",
+    "runtime-main.js.map": "/worldnews-client/static/js/runtime-main.55663104.js.map",
+    "static/js/2.29daf95f.chunk.js": "/worldnews-client/static/js/2.29daf95f.chunk.js",
+    "static/js/2.29daf95f.chunk.js.map": "/worldnews-client/static/js/2.29daf95f.chunk.js.map",
+    "index.html": "/worldnews-client/index.html",
+    "precache-manifest.58e609f436c2ae913e94ba14a0972e72.js": "/worldnews-client/precache-manifest.58e609f436c2ae913e94ba14a0972e72.js",
+    "service-worker.js": "/worldnews-client/service-worker.js",
+    "static/css/main.3147b840.chunk.css.map": "/worldnews-client/static/css/main.3147b840.chunk.css.map",
+    "static/js/2.29daf95f.chunk.js.LICENSE": "/worldnews-client/static/js/2.29daf95f.chunk.js.LICENSE",
+    "static/media/no-image.jpg": "/worldnews-client/static/media/no-image.294de88d.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.c5ac5c46.js",
+    "static/js/runtime-main.55663104.js",
     "static/js/2.29daf95f.chunk.js",
     "static/css/main.3147b840.chunk.css",
-    "static/js/main.ad56ed09.chunk.js"
+    "static/js/main.04b9b6e5.chunk.js"
   ]
 }
