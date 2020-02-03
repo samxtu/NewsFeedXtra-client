@@ -75,7 +75,6 @@ const useStyles = makeStyles({
       padding: "0 0 0 0",
     },
     [Theme.breakpoints.only('sm')]: {
-      padding: "0 0 0 0",
       fontSize: "80%",
       margin:'0 0 0 2px',
       padding:'0 0 0 2px',
