@@ -7,10 +7,19 @@ import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
 import {fade} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden';
 // mui icons 
 
 const styles = theme => ({
-    ...theme.common,
+    ...theme.common, 
+    root: {
+      flexGrow: 1,
+    },
+  menuButton: {
+    marginRight: 0
+  },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -98,7 +107,7 @@ const styles = theme => ({
   navhomelink: {
     color: 'inherit',
     [theme.breakpoints.only('xs')]: {
-      fontSize: '60%'
+      fontSize: '70%'
     },
     [theme.breakpoints.only('sm')]: {
       fontSize: '70%'
@@ -177,13 +186,6 @@ class Navbar extends Component {
       search: window.location.search.split('?')[1]
     })
   }
-  // UNSAFE_componentWillReceiveProps(nextProps){
-  //   if(nextProps){
-  //     this.setState({
-  //       search: nextProps.location.search.split('?')[1]
-  //     })
-  //   }
-  // }
   
   submitSearch = (e) => {
     e.preventDefault()
@@ -196,13 +198,25 @@ class Navbar extends Component {
     })
   }
     render (){
-        const { newClass, classes } = this.props;
+        const { newClass, classes, openDrawer } = this.props;
         const { search } = this.state;
         
         return (
+          <div className={classes.root}>
             <AppBar className={newClass}>
                 <Toolbar className="nav-container">
-                    <Link className={classes.navhomelink} to="/"><h2>World news</h2></Link>
+                  <Hidden smUp>
+                  <IconButton
+                      edge="start"
+                      className={classes.menuButton}
+                      color="inherit"
+                      aria-label="open drawer"
+                      onClick={openDrawer}
+                    >
+                      <MenuIcon />
+                    </IconButton>
+                  </Hidden>
+                    <Link className={classes.navhomelink} to="/"><h2>Global.news</h2></Link>
                     <form className={classes.search} onSubmit={this.submitSearch}>
                         <Link id='linktores' to={{ pathname:'/results', search: search, state: {details:{}} }} />
                         <div className={classes.searchIcon}>
@@ -222,6 +236,7 @@ class Navbar extends Component {
                     </form>
                 </Toolbar>
             </AppBar>
+        </div>
         )
     }
 }

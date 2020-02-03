@@ -18,6 +18,7 @@ import Collapse from '@material-ui/core/Collapse';
 import AllOutIcon from '@material-ui/icons/AllOut';
 import LinkIcon from '@material-ui/icons/Link';
 import FlagIcon from '@material-ui/icons/Flag';
+import Hidden from '@material-ui/core/Hidden';
 
 
 const styles = theme => ({
@@ -25,21 +26,26 @@ const styles = theme => ({
     card: {
         position: 'relative',
         display: 'flex',
+        paddingBottom:0,
         marginBottom: 1,
         [theme.breakpoints.only('xs')]: {
-          height: 60,
+          // height: '',
+          paddingBottom:0,
+          marginBottom:0
         },
         [theme.breakpoints.only('sm')]: {
-          height: 100,
+          // height: 160,
+          paddingBottom:0,
+          marginBottom:0
         },
         [theme.breakpoints.only('md')]: {
-          height: 140,
+          // height: 160,
         },
         [theme.breakpoints.only('lg')]: {
-          height: 180,
+          // height: 180,
         },
         [theme.breakpoints.only('xl')]: {
-          height: 220,
+          // height: 220,
         },
     },
     button: {
@@ -65,16 +71,54 @@ const styles = theme => ({
       },
     },
     content: {
-        padding: 3,
-        marginLeft: '5px',
         objectFit: 'cover',
-        width: '100%'
+        padding: 0,
+        "&:last-child": {
+          paddingBottom: 0
+        },
+        width: '100%',
+        [theme.breakpoints.only('xs')]: {
+          marginLeft: '3px',
+          padding:'0 0 0 3px'
+        },
+        [theme.breakpoints.only('sm')]: {
+          marginLeft: '3px',
+          padding:'0 0 0 3px'
+        },
+        [theme.breakpoints.only('md')]: {
+          padding: 2,
+          marginLeft: '5px',
+        },
+        [theme.breakpoints.only('lg')]: {
+          padding: 3,
+          marginLeft: '5px',
+        },
+        [theme.breakpoints.only('xl')]: {
+          padding: 3,
+          marginLeft: '5px',
+        },
     },
     link: {
       position: 'relative',
       color: 'inherit',
       left: '10px',
-      margin: 0
+      margin: 0,
+      [theme.breakpoints.only('xs')]: {
+        fontSize: '60%',
+        paddingRight: '8px'
+      },
+      [theme.breakpoints.only('sm')]: {
+        fontSize: '60%',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize: '90%',
+      },
+      [theme.breakpoints.only('lg')]: {
+        fontSize: '100%',
+      },
+      [theme.breakpoints.only('xl')]: {
+        fontSize: '100%',
+      },
     },
     expand: {
       transform: 'rotate(0deg)',
@@ -86,9 +130,81 @@ const styles = theme => ({
     expandOpen: {
       transform: 'rotate(0deg)'
     },
-    typo: {
-      marginBottom: 0
-    }
+    typoTitle: {
+      marginBottom: 0,
+      paddingTop: 0,
+      marginTop: 0,
+      [theme.breakpoints.only('xs')]: {
+        fontSize: '70%',
+      },
+      [theme.breakpoints.only('sm')]: {
+        fontSize: '70%',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize: '95%',
+      },
+      [theme.breakpoints.only('lg')]: {
+        fontSize: '100%',
+      },
+      [theme.breakpoints.only('xl')]: {
+        fontSize: '100%',
+      },
+    },
+    typoSubtitle: {
+      marginBottom: 0,
+      [theme.breakpoints.only('xs')]: {
+        fontSize: '60%',
+      },
+      [theme.breakpoints.only('sm')]: {
+        fontSize: '60%',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize: '90%',
+      },
+      [theme.breakpoints.only('lg')]: {
+        fontSize: '100%',
+      },
+      [theme.breakpoints.only('xl')]: {
+        fontSize: '100%',
+      },
+    },
+    typoDetails: {
+      marginBottom: 0,
+      [theme.breakpoints.only('xs')]: {
+        fontSize: '60%',
+      },
+      [theme.breakpoints.only('sm')]: {
+        fontSize: '60%',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize: '90%',
+      },
+      [theme.breakpoints.only('lg')]: {
+        fontSize: '100%',
+      },
+      [theme.breakpoints.only('xl')]: {
+        fontSize: '100%',
+      },
+    },
+    typoButton: {
+      marginBottom: 0,
+      [theme.breakpoints.only('xs')]: {
+        fontSize: '110%',
+        paddingRight: '8px'
+      },
+      [theme.breakpoints.only('sm')]: {
+        fontSize: '60%',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize: '90%',
+      },
+      [theme.breakpoints.only('lg')]: {
+        fontSize: '100%',
+      },
+      [theme.breakpoints.only('xl')]: {
+        fontSize: '100%',
+      },
+    },
 })
 
 class Scream extends Component {
@@ -118,7 +234,7 @@ class Scream extends Component {
             />
             <CardContent className={classes.content}>
               <Typography
-                className={classes.typo}
+                className={classes.typoTitle}
                 variant="h5"
                 color="primary"
                 component={Link}
@@ -126,21 +242,23 @@ class Scream extends Component {
               >
                 {title?(title):('This article does not have a title!')}
               </Typography>
-              <Typography variant="body2" color="textSecondary">
+              <Typography variant="body2" className={classes.typoSubtitle} color="textSecondary">
                 {publishedAt?(dayjs(publishedAt).fromNow()):('')} {name?(' from '+name):('')}{author?(' by '+author):('')}
               </Typography>
               <Typography
-                className={classes.typo} variant="body1">{description?(description):('')}</Typography><br/>
+                className={classes.typoDetails} variant="body1">{description?(description):('')}</Typography>
+                <Hidden smDown><br/></Hidden>
             <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                 <Typography
-                className={classes.typo} variant='body2' color='textSecondary' >Some content:</Typography>
+                className={classes.typoDetails} variant='body2' color='textSecondary' >Some content:</Typography>
                 <Typography
-                className={classes.typo} paragraph>{content?(content.split('[+')[0]): ('')}</Typography>
+                className={classes.typoDetails} paragraph>{content?(content.split('[+')[0]): ('')}</Typography>
             </Collapse>
-            <MyButton btnClassName={classes.typo} tip="History">
-                <FlagIcon color="primary" />
+            <Hidden only='xs'>
+            <MyButton  tip="History">
+                <FlagIcon className={classes.typoButton} color="primary" />
               </MyButton>
-              <span>:Trending</span>
+              <span className={classes.link}>:Trending</span>
               <span
                 className={clsx(classes.expand,classes.link, {
                   [classes.expandOpen]: this.state.expanded,
@@ -149,16 +267,35 @@ class Scream extends Component {
                 aria-expanded={this.state.expanded}
                 >
                 <MyButton btnClassName={classes.typo} tip="More details..." btnName={title} >
-                  <AllOutIcon color="primary" />
+                  <AllOutIcon className={classes.typoButton} color="primary" />
                 </MyButton>
                 {this.state.desc}
               </span>
               <Link to={{ pathname: '/redirect', hash: url }} target="_blank" rel="noopener" className={classes.link}>
                 <MyButton btnClassName={classes.typo} tip="View on original source">
-                  <LinkIcon color="primary" />
+                  <LinkIcon className={classes.typoButton} color="primary" />
                 </MyButton>
                 View on source
               </Link>
+              </Hidden>
+              <Hidden smUp>
+              <FlagIcon className={classes.typoDetails} color="primary" />
+              <span className={classes.link}>:Trending</span>
+              <span
+                className={clsx(classes.expand,classes.link, {
+                  [classes.expandOpen]: this.state.expanded,
+                })}
+                onClick={handleExpandClick}
+                aria-expanded={this.state.expanded}
+                >
+                <AllOutIcon className={classes.typoButton} color="primary" />
+                {this.state.desc}
+              </span>
+              <Link to={{ pathname: '/redirect', hash: url }} target="_blank" rel="noopener" className={classes.link}>
+                  <LinkIcon className={classes.typoButton} color="primary" />
+                View on source
+              </Link>
+              </Hidden>
             </CardContent>
           </Card>
         );

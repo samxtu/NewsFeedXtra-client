@@ -9,10 +9,13 @@ import Card from '@material-ui/core/Card';
 import {Link } from 'react-router-dom';
 import CardContent from '@material-ui/core/CardContent';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   button: {
     display: 'block',
     marginTop: theme.spacing(2),
+    [theme.breakpoints.only('sm')]: {
+      fontSize: '70%'
+    }
   },
   formControl: {
     margin: theme.spacing(1),
@@ -20,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
   noPad: {
     padding: '1px',
-  },
+  }
 }));
 export default function ControlledOpenSelect({country,category,urlTo,search}) {
   const classes = useStyles();

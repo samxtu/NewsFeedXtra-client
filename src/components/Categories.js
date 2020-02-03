@@ -26,7 +26,27 @@ const useStyles = makeStyles({
   noPad: {
     padding: 0,
     margin: 0,
-    color: 'inherit',
+  },
+  header: {
+    padding: 0,
+    margin: 0,
+    [Theme.breakpoints.only('sm')]: {
+      fontSize:'95%'
+    },
+  },
+  subheader: {
+    padding: 0,
+    margin: 0,
+    [Theme.breakpoints.only('sm')]: {
+      fontSize:'80%'
+    }
+  },
+  thecard: {
+    padding: 0,
+    "&:last-child": {
+      paddingBottom: 0
+    },
+    margin: 0,
     [Theme.breakpoints.only('xs')]: {
       margin: "2px 4px 2px 2px",
     },
@@ -44,27 +64,36 @@ const useStyles = makeStyles({
     },
   },
   link: {
-    color: 'inherit',
     padding: 0
   },
+  icon:{
+    color: "rgba(74, 226, 184, 0.98)",
+  },
   bulletText: {
-    fontSize: "80%",
+    color: "rgba(37, 30, 30, 1)",
     [Theme.breakpoints.only('xs')]: {
       padding: "0 0 0 0",
     },
     [Theme.breakpoints.only('sm')]: {
       padding: "0 0 0 0",
+      fontSize: "80%",
+      margin:'0 0 0 2px',
+      padding:'0 0 0 2px',
     },
     [Theme.breakpoints.only('md')]: {
-      padding: "0 0 0 0",
+      fontSize: "95%",
+      margin:'0 0 0 5px',
+      padding:'0 0 0 5px',
     },
     [Theme.breakpoints.only('lg')]: {
-      padding: "0 0 0 0",
+      margin:'0 0 0 8px',
+      padding:'0 0 0 8px',
     },
     [Theme.breakpoints.only('xl')]: {
-      padding: "0 0 0 0",
+      margin:'0 0 0 10px',
+      padding:'0 0 0 10px',
     },
-  }
+  },
 });
 
 export default function SimpleCard({category,country,urlTo,search}) {
@@ -72,12 +101,12 @@ export default function SimpleCard({category,country,urlTo,search}) {
   return (
     <Card className={classes.card}>
       <CardHeader
-        className={classes.noPad}
-        title="Categories:"
-        subheader="Current: All categories"
+        classes={{title: classes.header, subheader: classes.subheader}} 
+          title='Categories:'
+          subheader={`Current: ${category}`}
       />
       <CardContent 
-        className={classes.noPad}>
+        className={classes.thecard}>
         <List 
         className={classes.noPad}>
             {['general','entertainment','business','health','science','sports','technology'].map((text, index) => (
@@ -85,16 +114,16 @@ export default function SimpleCard({category,country,urlTo,search}) {
                 <Link  key={index+text} to={{ pathname: `${urlTo}/${text}`, search: search }}  className={classes.link}>
                 <ListItem
                 className={classes.noPad} button key={text}>
-                <CenterFocusStrongIcon className={classes.noPad} />
-                <ListItemText className={classes.bulletText} primary={text} />
+                <CenterFocusStrongIcon className={classes.icon} />
+                <ListItemText classes={{primary:classes.bulletText}} primary={text} />
                 </ListItem>
                 </Link>
                 ):(
                 <Link  key={index+text} to={{ pathname: `${urlTo}/${text}`, search: search  }}  className={classes.link}>
                 <ListItem 
                 className={classes.noPad} button key={text}>
-                <EditAttributesIcon className={classes.noPad} />
-                <ListItemText  className={classes.bulletText} >{text}</ListItemText>
+                <EditAttributesIcon className={classes.icon} />
+                <ListItemText classes={{primary:classes.bulletText}} primary={text} />
                 </ListItem>
                 </Link>
             )))}
