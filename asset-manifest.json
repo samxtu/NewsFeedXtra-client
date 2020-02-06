@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/worldnews-client/static/css/main.3147b840.chunk.css",
-    "main.js": "/worldnews-client/static/js/main.f3963b24.chunk.js",
-    "main.js.map": "/worldnews-client/static/js/main.f3963b24.chunk.js.map",
+    "main.js": "/worldnews-client/static/js/main.838ef687.chunk.js",
+    "main.js.map": "/worldnews-client/static/js/main.838ef687.chunk.js.map",
     "runtime-main.js": "/worldnews-client/static/js/runtime-main.55663104.js",
     "runtime-main.js.map": "/worldnews-client/static/js/runtime-main.55663104.js.map",
     "static/js/2.3c6797b1.chunk.js": "/worldnews-client/static/js/2.3c6797b1.chunk.js",
     "static/js/2.3c6797b1.chunk.js.map": "/worldnews-client/static/js/2.3c6797b1.chunk.js.map",
     "index.html": "/worldnews-client/index.html",
-    "precache-manifest.4fa4038651594f94c1f8b66de00afa31.js": "/worldnews-client/precache-manifest.4fa4038651594f94c1f8b66de00afa31.js",
+    "precache-manifest.5d057c060bb5b113a0a05905db779caf.js": "/worldnews-client/precache-manifest.5d057c060bb5b113a0a05905db779caf.js",
     "service-worker.js": "/worldnews-client/service-worker.js",
     "static/css/main.3147b840.chunk.css.map": "/worldnews-client/static/css/main.3147b840.chunk.css.map",
     "static/js/2.3c6797b1.chunk.js.LICENSE": "/worldnews-client/static/js/2.3c6797b1.chunk.js.LICENSE",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.55663104.js",
     "static/js/2.3c6797b1.chunk.js",
     "static/css/main.3147b840.chunk.css",
-    "static/js/main.f3963b24.chunk.js"
+    "static/js/main.838ef687.chunk.js"
   ]
 }
