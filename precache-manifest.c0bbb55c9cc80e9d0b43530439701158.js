@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bfbd4b9745e8987f49a12c93a71aee65",
+    "revision": "f1a806f9d8f22781737a95f81f340ad2",
     "url": "/worldnews-client/index.html"
   },
   {
-    "revision": "b547e35a926c56b83dd2",
+    "revision": "a11dfc4cdbc7525013c5",
     "url": "/worldnews-client/static/css/main.3147b840.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/worldnews-client/static/js/2.3c6797b1.chunk.js.LICENSE"
   },
   {
-    "revision": "b547e35a926c56b83dd2",
-    "url": "/worldnews-client/static/js/main.838ef687.chunk.js"
+    "revision": "a11dfc4cdbc7525013c5",
+    "url": "/worldnews-client/static/js/main.c1bf5179.chunk.js"
   },
   {
     "revision": "d7164f75dcc20bc56de0",
