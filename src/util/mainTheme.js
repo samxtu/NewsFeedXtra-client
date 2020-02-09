@@ -7,8 +7,19 @@ export default  {
       },
       primary: {
           light: "rgba(121, 203, 160, 1)",
-          main: "rgba(74, 226, 184, 0.98)",
-          dark: "rgba(48, 140, 159, 1)",
+          // main: "#31708E",
+          // main: "#B39B68",
+          // main: "#59253A",
+          // main: "#F4976C",
+          // main: "#2D283E",
+          // main: "#2D5F5D",
+          // main: "#265077",
+
+          // main: "#116466",
+          // main: "#AC3B61",
+          main: "#BC4639",
+          // main: "rgba(74, 226, 184, 0.98)",
+          dark: "#8B572A",
           contrastText: "#fff"
       },
       secondary: {

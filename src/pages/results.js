@@ -51,7 +51,8 @@ class results extends Component {
             })
             if(!this.props.match.params.param1){
                 newsapi.v2.topHeadlines({
-                    q: this.props.location.search.split('?')[1]
+                    q: this.props.location.search.split('?')[1],
+                    pageSize: 50
                   }).then(response => {
                     if(response.status === 'ok'){
                         console.log(response.totalResults)
@@ -71,7 +72,8 @@ class results extends Component {
                     newsapi.v2.topHeadlines({
                         q: this.props.location.search.split('?')[1],
                         country: this.props.match.params.param1,
-                        category: this.props.match.params.param2
+                        category: this.props.match.params.param2,
+                        pageSize: 50
                       }).then(response => {
                         if(response.status === 'ok'){
                             console.log(response.totalResults)
@@ -94,7 +96,8 @@ class results extends Component {
                 } else{
                     newsapi.v2.topHeadlines({
                         q: this.props.location.search.split('?')[1],
-                        country: this.props.match.params.param1
+                        country: this.props.match.params.param1,
+                        pageSize: 50
                       }).then(response => {
                         if(response.status === 'ok'){
                             console.log(response.totalResults)
@@ -118,7 +121,8 @@ class results extends Component {
                     newsapi.v2.topHeadlines({
                         q: this.props.location.search.split('?')[1],
                         country: this.props.match.params.param2,
-                        category: this.props.match.params.param1
+                        category: this.props.match.params.param1,
+                        pageSize: 50
                       }).then(response => {
                         if(response.status === 'ok'){
                             console.log(response.totalResults)
@@ -141,7 +145,8 @@ class results extends Component {
                 } else {
                     newsapi.v2.topHeadlines({
                         q: this.props.location.search.split('?')[1],
-                        category: this.props.match.params.param1
+                        category: this.props.match.params.param1,
+                        pageSize: 50
                       }).then(response => {
                         if(response.status === 'ok'){
                             console.log(response.totalResults)
@@ -172,7 +177,8 @@ class results extends Component {
             })
             if(!nextProps.match.params.param1){
                 newsapi.v2.topHeadlines({
-                    q: nextProps.location.search.split('?')[1]
+                    q: nextProps.location.search.split('?')[1],
+                    pageSize: 50
                   }).then(response => {
                     if(response.status === 'ok'){
                         console.log(response.totalResults)
@@ -192,7 +198,8 @@ class results extends Component {
                     newsapi.v2.topHeadlines({
                         q: nextProps.location.search.split('?')[1],
                         country: nextProps.match.params.param1,
-                        category: nextProps.match.params.param2
+                        category: nextProps.match.params.param2,
+                        pageSize: 50
                       }).then(response => {
                         if(response.status === 'ok'){
                             console.log(response.totalResults)
@@ -215,7 +222,8 @@ class results extends Component {
                 } else{
                     newsapi.v2.topHeadlines({
                         q: nextProps.location.search.split('?')[1],
-                        country: nextProps.match.params.param1
+                        country: nextProps.match.params.param1,
+                        pageSize: 50
                       }).then(response => {
                         if(response.status === 'ok'){
                             console.log(response.totalResults)
@@ -239,7 +247,8 @@ class results extends Component {
                     newsapi.v2.topHeadlines({
                         q: nextProps.location.search.split('?')[1],
                         country: nextProps.match.params.param2,
-                        category: nextProps.match.params.param1
+                        category: nextProps.match.params.param1,
+                        pageSize: 50
                       }).then(response => {
                         if(response.status === 'ok'){
                             console.log(response.totalResults)
@@ -262,7 +271,8 @@ class results extends Component {
                 } else {
                     newsapi.v2.topHeadlines({
                         q: nextProps.location.search.split('?')[1],
-                        category: nextProps.match.params.param1
+                        category: nextProps.match.params.param1,
+                        pageSize: 50
                       }).then(response => {
                         if(response.status === 'ok'){
                             console.log(response.totalResults)
@@ -287,7 +297,7 @@ class results extends Component {
     }
 
     onDetChange = (dets) => {
-      console.log(dets)
+    //   console.log(dets)
     }
 
     render (){
@@ -305,8 +315,8 @@ class results extends Component {
                 <Hidden xsDown>
                     <Grid item md={2} sm={3} xs={12}>
                         <DetailSearch className={classes.full}  onDetChange={(dets) => this.onDetChange(dets)} />
-                        <Categories className={classes.full} search={search} category={category} country={country} urlTo={'/results'+urlCat} />
-                        <Countries className={classes.full} search={search}  category={category} country={country}  urlTo={'/results'+urlCou} />
+                        <Categories className={classes.full} search={search} category={category} country={country} urlTo={'/worldnews-client/results'+urlCat} />
+                        <Countries className={classes.full} search={search}  category={category} country={country}  urlTo={'/worldnews-client/results'+urlCou} />
                     </Grid>
                 </Hidden>
             </Grid>

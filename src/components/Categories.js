@@ -67,7 +67,7 @@ const useStyles = makeStyles({
     padding: 0
   },
   icon:{
-    color: "rgba(74, 226, 184, 0.98)",
+    color: "#BC4639",
   },
   bulletText: {
     color: "rgba(37, 30, 30, 1)",

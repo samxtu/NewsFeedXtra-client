@@ -104,11 +104,11 @@ const styles = theme => ({
       left: '10px',
       margin: 0,
       [theme.breakpoints.only('xs')]: {
-        fontSize: '60%',
+        fontSize: '85%',
         paddingRight: '8px'
       },
       [theme.breakpoints.only('sm')]: {
-        fontSize: '60%',
+        fontSize: '80%',
       },
       [theme.breakpoints.only('md')]: {
         fontSize: '90%',
@@ -135,10 +135,10 @@ const styles = theme => ({
       paddingTop: 0,
       marginTop: 0,
       [theme.breakpoints.only('xs')]: {
-        fontSize: '70%',
+        fontSize: '85%',
       },
       [theme.breakpoints.only('sm')]: {
-        fontSize: '70%',
+        fontSize: '90%',
       },
       [theme.breakpoints.only('md')]: {
         fontSize: '95%',
@@ -153,10 +153,10 @@ const styles = theme => ({
     typoSubtitle: {
       marginBottom: 0,
       [theme.breakpoints.only('xs')]: {
-        fontSize: '60%',
+        fontSize: '80%',
       },
       [theme.breakpoints.only('sm')]: {
-        fontSize: '60%',
+        fontSize: '80%',
       },
       [theme.breakpoints.only('md')]: {
         fontSize: '90%',
@@ -171,10 +171,10 @@ const styles = theme => ({
     typoDetails: {
       marginBottom: 0,
       [theme.breakpoints.only('xs')]: {
-        fontSize: '60%',
+        fontSize: '80%',
       },
       [theme.breakpoints.only('sm')]: {
-        fontSize: '60%',
+        fontSize: '80%',
       },
       [theme.breakpoints.only('md')]: {
         fontSize: '90%',
@@ -215,6 +215,10 @@ class Scream extends Component {
       expanded: false
     }
   }
+
+  shouldComponentUpdate(nextProps,nextState){
+    return false;
+  }
     render (){
         dayjs.extend(relativeTime);
       
@@ -229,7 +233,7 @@ class Scream extends Component {
           <Card className={classes.card}>
             <CardMedia
               className={classes.image}
-              image={urlToImage?(urlToImage):(noImg)}
+              image={urlToImage?(urlToImage.includes('https://')?(urlToImage):(urlToImage.includes('http://')?(urlToImage.replace('http://','https://')):('https://'+urlToImage))):(noImg)}
               title={"Profile"}
             />
             <CardContent className={classes.content}>
@@ -238,7 +242,8 @@ class Scream extends Component {
                 variant="h5"
                 color="primary"
                 component={Link}
-                to={{ pathname: '/redirect', hash: url }} target="_blank" rel="noopener"
+                aria-label="Link to headline source"
+                to={{ pathname: '/worldnews-client/redirect', hash: url }} target="_blank" rel="noopener"
               >
                 {title?(title):('This article does not have a title!')}
               </Typography>
@@ -271,7 +276,7 @@ class Scream extends Component {
                 </MyButton>
                 {this.state.desc}
               </span>
-              <Link to={{ pathname: '/redirect', hash: url }} target="_blank" rel="noopener" className={classes.link}>
+              <Link to={{ pathname: '/worldnews-client/redirect', hash: url }} target="_blank" rel="noopener" className={classes.link}>
                 <MyButton btnClassName={classes.typo} tip="View on original source">
                   <LinkIcon className={classes.typoButton} color="primary" />
                 </MyButton>
@@ -279,8 +284,6 @@ class Scream extends Component {
               </Link>
               </Hidden>
               <Hidden smUp>
-              <FlagIcon className={classes.typoDetails} color="primary" />
-              <span className={classes.link}>:Trending</span>
               <span
                 className={clsx(classes.expand,classes.link, {
                   [classes.expandOpen]: this.state.expanded,
@@ -291,7 +294,7 @@ class Scream extends Component {
                 <AllOutIcon className={classes.typoButton} color="primary" />
                 {this.state.desc}
               </span>
-              <Link to={{ pathname: '/redirect', hash: url }} target="_blank" rel="noopener" className={classes.link}>
+              <Link aria-label="Link to headline source" to={{ pathname: '/worldnews-client/redirect', hash: url }} target="_blank" rel="noopener" className={classes.link}>
                   <LinkIcon className={classes.typoButton} color="primary" />
                 View on source
               </Link>

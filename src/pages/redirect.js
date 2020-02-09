@@ -3,11 +3,12 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import withSyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
     ...theme.common,
     redirecting: {
-        margin: '10%',
+        margin: '10% 0 10% 0',
         width: '100%'
     }
 })
@@ -24,13 +25,17 @@ class redirect extends Component {
     render() {
         const {classes} = this.props;
         return (
-            <div className={classes.redirecting}>
-                <Typography variant='body2'>We are redirecting you!</Typography>
-                <LinearProgress variant="query" />
-                <LinearProgress variant="query" color="secondary" />
-                <Button onClick={this.cliked}><Typography variant='caption'>Click here if you were not redirected</Typography></Button>
-                <Typography variant='subtitle1'>Note: we are not in any way associated with the source of this article.</Typography>
-            </div>
+            <Grid container>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={10} className={classes.redirecting}>
+                    <Typography variant='body2'>We are redirecting you!</Typography>
+                    <LinearProgress variant="query" />
+                    <LinearProgress variant="query" color="secondary" />
+                    <Button onClick={this.cliked}><Typography variant='caption'>Click here if you were not redirected</Typography></Button>
+                    <Typography variant='subtitle1'>Note: we are not in any way associated with the source of this article.</Typography>
+                </Grid>
+                <Grid item xs={1}></Grid>
+            </Grid>
         )
     }
 }

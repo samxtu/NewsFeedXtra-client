@@ -3,7 +3,7 @@
   "name": "World news",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "mm.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "rgba(74, 226, 184, 0.98)",
-  "background_color": "rgba(245, 239, 239, 1)"
+  "theme_color": "#4ae2b8",
+  "background_color": "#f5efef"
 }

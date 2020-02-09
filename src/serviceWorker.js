@@ -25,6 +25,7 @@ export function register(config) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
+      console.log("no service worker")
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
@@ -32,7 +33,7 @@ export function register(config) {
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      const swUrl = `/worldnews-client/service-worker.js`;
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
@@ -49,6 +50,12 @@ export function register(config) {
       } else {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
+        // if ('serviceWorker' in navigator) {
+        //   window.addEventListener('load', function() {
+        //     navigator.serviceWorker.register('/worldnews-client/service-worker.js');
+        //   });
+        // }
+        
       }
     });
   }
@@ -133,3 +140,4 @@ export function unregister() {
     });
   }
 }
+
