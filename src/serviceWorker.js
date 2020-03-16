@@ -33,7 +33,7 @@ export function register(config) {
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `/worldnews-client/service-worker.js`;
+      const swUrl = `/service-worker.js`;
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
@@ -52,7 +52,7 @@ export function register(config) {
         registerValidSW(swUrl, config);
         // if ('serviceWorker' in navigator) {
         //   window.addEventListener('load', function() {
-        //     navigator.serviceWorker.register('/worldnews-client/service-worker.js');
+        //     navigator.serviceWorker.register('/service-worker.js');
         //   });
         // }
         

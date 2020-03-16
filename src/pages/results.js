@@ -1,7 +1,5 @@
 import React , { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-
-
 //Components
 import Scream from '../components/Scream';
 import Categories from '../components/Categories';
@@ -25,8 +23,7 @@ const styles = theme => ({
         width: 'inherit 100%'
     },
     center: {
-        margin: '0 0 0 50%',
-        float: 'center'
+        margin: '0 0 0 10%',
     }
 })
 
@@ -41,13 +38,16 @@ class results extends Component {
             urlCat: '',
             urlCou: '',
             category: 'All',
-            country: 'All'
+            country: 'All',
+            props:{}
         }
     }
     
     componentDidMount(){
+        console.log('results did mount')
             this.setState({
-                search: this.props.location.search.split('?')[1]
+                search: this.props.location.search.split('?')[1],
+                props: this.props
             })
             if(!this.props.match.params.param1){
                 newsapi.v2.topHeadlines({
@@ -55,7 +55,6 @@ class results extends Component {
                     pageSize: 50
                   }).then(response => {
                     if(response.status === 'ok'){
-                        console.log(response.totalResults)
                         this.setState({
                             loading: false,
                             news: response.articles,
@@ -168,13 +167,10 @@ class results extends Component {
             }
     }
     UNSAFE_componentWillReceiveProps(nextProps){
-        if(nextProps.location.search){
-            this.setState({
-                search: nextProps.location.search.split('?')[1],
-                loading: true,
-                news: [],
-                totalResults: null
-            })
+        if(this.state.props.match.params.param1 !== nextProps.match.params.param1 || this.state.props.match.params.param2 !== nextProps.match.params.param2 || this.state.props.location.search !== nextProps.location.search){
+            this.setState({props: nextProps })
+            console.log('results received new props')
+            if(nextProps.location.search){
             if(!nextProps.match.params.param1){
                 newsapi.v2.topHeadlines({
                     q: nextProps.location.search.split('?')[1],
@@ -292,8 +288,8 @@ class results extends Component {
                     })
                 }
             }
-
         }
+    }
     }
 
     onDetChange = (dets) => {
@@ -303,7 +299,7 @@ class results extends Component {
     render (){
         const {loading, news, totalResults, urlCat, urlCou, search,category,country} = this.state;
         const {classes } = this.props;
-        let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream}/>):(<NewsSkeleton />)
+        let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream} trending={false} />):(<NewsSkeleton />)
         return (
             <Grid container spacing={2}>
                 <Grid item md={10} sm={9} xs={12}>
@@ -315,8 +311,8 @@ class results extends Component {
                 <Hidden xsDown>
                     <Grid item md={2} sm={3} xs={12}>
                         <DetailSearch className={classes.full}  onDetChange={(dets) => this.onDetChange(dets)} />
-                        <Categories className={classes.full} search={search} category={category} country={country} urlTo={'/worldnews-client/results'+urlCat} />
-                        <Countries className={classes.full} search={search}  category={category} country={country}  urlTo={'/worldnews-client/results'+urlCou} />
+                        <Categories className={classes.full} search={search} category={category} country={country} urlTo={'/results'+urlCat} />
+                        <Countries className={classes.full} search={search}  category={category} country={country}  urlTo={'/results'+urlCou} />
                     </Grid>
                 </Hidden>
             </Grid>

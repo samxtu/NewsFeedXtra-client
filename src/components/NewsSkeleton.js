@@ -12,22 +12,25 @@ const styles = theme => ({
     ...theme.common,
     card: {
         position: 'relative',
-        display: 'flex',
         marginBottom: 1,
         [theme.breakpoints.only('xs')]: {
-          height: 60,
+        //   height: 60,
         },
         [theme.breakpoints.only('sm')]: {
           height: 100,
+          display: 'flex',
         },
         [theme.breakpoints.only('md')]: {
           height: 140,
+          display: 'flex',
         },
         [theme.breakpoints.only('lg')]: {
           height: 180,
+          display: 'flex',
         },
         [theme.breakpoints.only('xl')]: {
           height: 220,
+          display: 'flex',
         },
     },
     content: { 
@@ -38,7 +41,8 @@ const styles = theme => ({
     },
     image: {
         [theme.breakpoints.only('xs')]: {
-          minWidth: 90,
+          maxWidth: 0,
+          maxHeight: 0
         },
         [theme.breakpoints.only('sm')]: {
           minWidth: 120,
@@ -57,7 +61,7 @@ const styles = theme => ({
       padding: '0 0px 10px 2px',
       top:'0',
       height: 5,
-      backgroundColor: '#BC4639' ,
+      backgroundColor: '#2D283E' ,
       width: '100%'
     },
     datediv: {
@@ -88,142 +92,6 @@ export class NewsSkeleton extends Component {
         const {classes} = this.props
         return (
             <Fragment>
-                    <Card className={classes.card}>
-                        <CardMedia
-                        className={classes.image}
-                        image={noImg}
-                        title={"Profile"}
-                        />
-                        <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.card}>
-                        <CardMedia
-                        className={classes.image}
-                        image={noImg}
-                        title={"Profile"}
-                        />
-                        <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.card}>
-                        <CardMedia
-                        className={classes.image}
-                        image={noImg}
-                        title={"Profile"}
-                        />
-                        <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.card}>
-                        <CardMedia
-                        className={classes.image}
-                        image={noImg}
-                        title={"Profile"}
-                        />
-                        <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.card}>
-                        <CardMedia
-                        className={classes.image}
-                        image={noImg}
-                        title={"Profile"}
-                        />
-                        <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.card}>
-                        <CardMedia
-                        className={classes.image}
-                        image={noImg}
-                        title={"Profile"}
-                        />
-                        <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.card}>
-                        <CardMedia
-                        className={classes.image}
-                        image={noImg}
-                        title={"Profile"}
-                        />
-                        <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.card}>
-                        <CardMedia
-                        className={classes.image}
-                        image={noImg}
-                        title={"Profile"}
-                        />
-                        <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
-                        </CardContent>
-                    </Card>
                     <Card className={classes.card}>
                         <CardMedia
                         className={classes.image}

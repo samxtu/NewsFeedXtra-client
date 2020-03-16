@@ -1,8 +1,8 @@
 {
-  "name": "worldnews-client",
+  "name": "newsfasta",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://samxtu.github.io/worldnews-client/",
+  "homepage": "https://newsfasta.com",
   "dependencies": {
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",

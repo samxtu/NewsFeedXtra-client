@@ -117,7 +117,7 @@ class home extends Component {
         })
     }
     componentDidMount(){
-        //fetch fresh data
+        console.log('Home did mount')
         return this.fetchOnline();
     }
     addMoreHeadlines = () =>{
@@ -206,7 +206,7 @@ class home extends Component {
             </Button>
             );
         let fetchError = error?(<Alert className={classes.alert} elevation={6} variant="filled" severity="warning">{theError}</Alert>):null;
-        let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream}/>):(<NewsSkeleton />)
+        let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream} trending={true} />):(<NewsSkeleton />)
         return (
             <Grid container spacing={1}>
                 {fetchError}
@@ -216,8 +216,8 @@ class home extends Component {
                 </Grid>
                 <Hidden xsDown>
                     <Grid  item md={2} sm={3} xs={12}>
-                        <Categories category='All' country='All' urlTo='/worldnews-client/category' />
-                        <Countries country='All' category='All'  urlTo='/worldnews-client/country' />
+                        <Categories category='All' country='All' urlTo='/category' />
+                        <Countries country='All' category='All'  urlTo='/country' />
                     </Grid>
                 </Hidden>
             </Grid>

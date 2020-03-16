@@ -64,7 +64,7 @@ const styles = theme => ({
       width: theme.spacing(3),
       height: '100%',
       top:'0%',
-      margin: 'auto'
+      margin: 0
     },
     [theme.breakpoints.only('sm')]: {
       width: theme.spacing(4),
@@ -221,9 +221,9 @@ class Navbar extends Component {
                       <MenuIcon />
                     </IconButton>
                   </Hidden>
-                    <Link aria-label="Link to website homepage" className={classes.navhomelink} to="/worldnews-client/"><h2>Global.news</h2></Link>
+                    <Link aria-label="Link to website homepage" className={classes.navhomelink} to="/"><h2>NewsFasta</h2></Link>
                     <form className={classes.search} onSubmit={this.submitSearch}>
-                        <Link aria-label="Link to search results" id='linktores' to={{ pathname:'/worldnews-client/results', search: search, state: {details:{}} }} />
+                        <Link aria-label="Link to search results" id='linktores' to={{ pathname:'/results', search: search, state: {details:{}} }} />
                         <div className={classes.searchIcon}>
                         <SearchIcon />
                         </div>

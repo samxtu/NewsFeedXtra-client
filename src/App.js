@@ -98,11 +98,11 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
   },
   countryButton:{
-    borderColor: "#BC4639",
+    borderColor: "#2D283E",
     borderStyle:"block"
   },
   icon:{
-    color: "#BC4639",
+    color: "#2D283E",
   },
   bulletText: {
     color: "rgba(37, 30, 30, 1)",
@@ -129,31 +129,44 @@ const theme = createMuiTheme(mainTheme);
 
 function App() {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    right: false,
-    urlTo: (window.location.href.split('?')[0].includes("country/") === true)?
-    ('/worldnews-client/country'):(
-     (window.location.href.split('?')[0].includes("category/") === true)?
-     `/worldnews-client/category/${window.location.href.split('?')[0].split('category/')[1].split('/')[0]}`
-    :(
-      (window.location.href.split('?')[0].includes('results') === true)?(
-        (window.location.href.split('?')[0].includes('results/') === true)?(
-          (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length === 2)?(
-            (window.location.href.split('?')[0].split('results/')[1].split('/')[1] !== null)?(
-               `/worldnews-client/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[1]}` 
-             ):  `/worldnews-client/results` 
-           ):  `/worldnews-client/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}` 
-      ) :  `/worldnews-client/results` 
-    ):'/worldnews-client/country')),
-    search: window.location.pathname.split('?')[1]
-  });
+  const [straight, setState] = React.useState(false);
+  let urlToCategory = (window.location.href.split('?')[0].includes("category/") === true)?
+  ('/category'):(
+   (window.location.href.split('?')[0].includes("country/") === true)?
+   `/country/${window.location.href.split('?')[0].split('country/')[1].split('/')[0]}`
+  :(
+    (window.location.href.split('?')[0].includes('results') === true)?(
+      (window.location.href.split('?')[0].includes('results/') === true)?(
+        (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length !== 2)?(
+          (window.location.href.split('?')[0].split('results/')[1].split('/')[1] !== null)?(
+             `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[1]}` 
+           ):  `/results` 
+         ):  `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}` 
+    ) :  `/results` 
+  ):'/category'));
+  let urlToCountry = (window.location.href.split('?')[0].includes("country/") === true)?
+  ('/country'):(
+   (window.location.href.split('?')[0].includes("category/") === true)?
+   `/category/${window.location.href.split('?')[0].split('category/')[1].split('/')[0]}`
+  :(
+    (window.location.href.split('?')[0].includes('results') === true)?(
+      (window.location.href.split('?')[0].includes('results/') === true)?(
+        (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length === 2)?(
+          (window.location.href.split('?')[0].split('results/')[1].split('/')[1] !== null)?(
+             `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[1]}` 
+           ):  `/results` 
+         ):  `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}` 
+    ) :  `/results` 
+  ):'/country'));
+  let search = window.location.href.split('?')[1];
   const [pop, setCountryDrawerOpen] = React.useState(false);
   const [ready, setReady] = React.useState(false);
   const toggleDrawer = (side, open) => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-    setState({ [side]: open });
+    if(open===true) funcToStore()
+    setState( open );
   };
   
   const handleDrawerOpen = () => {
@@ -167,6 +180,38 @@ function App() {
     setCountryDrawerOpen(false);
     setReady(false)
   };
+
+  const funcToStore = ()=>{
+     urlToCategory = (window.location.href.split('?')[0].includes("category/") === true)?
+    ('/category'):(
+     (window.location.href.split('?')[0].includes("country/") === true)?
+     `/country/${window.location.href.split('?')[0].split('country/')[1].split('/')[0]}`
+    :(
+      (window.location.href.split('?')[0].includes('results') === true)?(
+        (window.location.href.split('?')[0].includes('results/') === true)?(
+          (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length !== 2)?(
+            (window.location.href.split('?')[0].split('results/')[1].split('/')[1] !== null)?(
+               `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[1]}` 
+             ):  `/results` 
+           ):  `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}` 
+      ) :  `/results` 
+    ):'/category'));
+     urlToCountry = (window.location.href.split('?')[0].includes("country/") === true)?
+    ('/country'):(
+     (window.location.href.split('?')[0].includes("category/") === true)?
+     `/category/${window.location.href.split('?')[0].split('category/')[1].split('/')[0]}`
+    :(
+      (window.location.href.split('?')[0].includes('results') === true)?(
+        (window.location.href.split('?')[0].includes('results/') === true)?(
+          (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length === 2)?(
+            (window.location.href.split('?')[0].split('results/')[1].split('/')[1] !== null)?(
+               `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[1]}` 
+             ):  `/results` 
+           ):  `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}` 
+      ) :  `/results` 
+    ):'/country'));
+     search = window.location.pathname.split('?')[1];
+  }
 
   const handleClickAway = () => {
     if(pop === true && ready === true) handleDrawerClose();
@@ -184,7 +229,7 @@ function App() {
         className={classes.noPad}>
             {['general','entertainment','business','health','science','sports','technology'].map((text, index) => (
                 text === category?(
-                <Link  key={index+text} to={{ pathname: `/worldnews-client/category/${text}` }}  className={classes.link}>
+                <Link  key={index+text} to={{ pathname: urlToCategory+`/${text}`, search: search }}  className={classes.link}>
                 <ListItem
                 className={classes.noPad} button key={text}>
                 <CenterFocusStrongIcon className={classes.icon} />
@@ -192,7 +237,7 @@ function App() {
                 </ListItem>
                 </Link>
                 ):(
-                <Link  key={index+text} to={{ pathname: `/worldnews-client/category/${text}` }}  className={classes.link}>
+                <Link  key={index+text} to={{ pathname: urlToCategory+`/${text}`, search: search }}  className={classes.link}>
                 <ListItem 
                 className={classes.noPad} button key={text}>
                 <EditAttributesIcon className={classes.icon} />
@@ -215,16 +260,14 @@ function App() {
                   <ListItemText primary={"Choose a country"} />
                 </ListItem>
             </List>
-        {/* <Button aria-label="Countries" name="countryButton" id="countryButton" onClick={handleDrawerOpen}>Countries</Button> */}
     </div>
   );
-
   return (
     <MuiThemeProvider theme={theme}>
       <div className={classes.root}>
         <Router>
           <Navbar newClass={classes.appBar} openDrawer={toggleDrawer('right', true)}/>
-          <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
+          <Drawer anchor="right" open={straight} onClose={toggleDrawer('right', false)}>
             {sideList('right')}
           </Drawer>
           
@@ -246,8 +289,9 @@ function App() {
             <List>
               {countryArray.map((text) => (
                 <ListItem
+                onClick={handleDrawerClose}
                 component={Link}
-                to={{ pathname: `${state.urlTo}/${text.code.toLowerCase()}`, search: state.search }}
+                to={{ pathname: `${urlToCountry}/${text.code.toLowerCase()}`, search: search }}
                  button key={text.label}>
                   <ListItemIcon><Typography color="primary">{text.code}</Typography></ListItemIcon>
                   <ListItemText primary={text.label} />
@@ -258,12 +302,11 @@ function App() {
           </ClickAwayListener>
           <div className="container">
             <Switch>
-              <Route exact path="/worldnews-client/" component={home} />   
               <Route exact path="/" component={home} />   
-              <Route exact path="/worldnews-client/redirect" component={redirect} />   
-              <Route exact path="/worldnews-client/results/:param1?/:param2?" component={results} />   
-              <Route exact path="/worldnews-client/country/:name/:title?" component={country} />   
-              <Route exact path="/worldnews-client/category/:title/:name?" component={category} />   
+              <Route exact path="/redirect" component={redirect} />   
+              <Route exact path="/results/:param1?/:param2?" component={results} />   
+              <Route exact path="/country/:name/:title?" component={country} />   
+              <Route exact path="/category/:title/:name?" component={category} />   
             </Switch>
           <Footer />
           </div>

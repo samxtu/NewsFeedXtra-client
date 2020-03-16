@@ -46,15 +46,18 @@ class category extends Component {
             error: false,
             theError: '',
             category: this.props.match.params.title,
-            country: 'All'
+            country: 'All',
+            props: {}
         }
     }
     
     componentDidMount(){
+        console.log('category did mount')
         var networkDataReceived = false;
         this.setState({
             category: this.props.match.params.title,
-            country: this.props.match.params.name?this.props.match.params.name:'All'
+            country: this.props.match.params.name?this.props.match.params.name:'All',
+            props: this.props
         })
         if(this.props.match.params.name){
             //fetch fresh data
@@ -147,106 +150,107 @@ class category extends Component {
         }
     }
     UNSAFE_componentWillReceiveProps(nextProps){
-        var networkDataReceived = false;
-        this.setState({page:1,cachePage:1})
-        if(nextProps.match.params.name){
-            this.setState({
-                category: nextProps.match.params.title,
-                country: nextProps.match.params.name
-            })
-            newsapi.v2.topHeadlines({
-                category: nextProps.match.params.title,
-                country: nextProps.match.params.name,
-                page: this.state.page
-              }).then(response => {
-                if(response.status === 'ok'){
-                    this.setState({
-                        loading: false,
-                        page: this.state.page+1,
-                        news: response.articles
-                    })
-                }  else{
+        if(this.state.props.match.params.title !== nextProps.match.params.title || this.state.props.match.params.name !== nextProps.match.params.name){
+            var networkDataReceived = false;
+            this.setState({page:1,cachePage:1,props:nextProps})
+            if(nextProps.match.params.name){
+                this.setState({
+                    category: nextProps.match.params.title,
+                    country: nextProps.match.params.name
+                })
+                newsapi.v2.topHeadlines({
+                    category: nextProps.match.params.title,
+                    country: nextProps.match.params.name,
+                    page: this.state.page
+                  }).then(response => {
+                    if(response.status === 'ok'){
+                        this.setState({
+                            loading: false,
+                            page: this.state.page+1,
+                            news: response.articles
+                        })
+                    }  else{
+                        this.setState({
+                            error: true,
+                            theError: "Sorry! Problem loading new headlines!"
+                        })
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err)
                     this.setState({
                         error: true,
-                        theError: "Sorry! Problem loading new headlines!"
+                        theError: "Offline: Turn on data for latest headlines."
                     })
-                }
-            })
-            .catch((err)=>{
-                console.log(err)
-                this.setState({
-                    error: true,
-                    theError: "Offline: Turn on data for latest headlines."
-                })
-            });
-            
-        const This = this;
-        // fetch cached data
-        caches.match(`https://newsapi.org/v2/top-headlines?category=${nextProps.match.params.title}&country=${nextProps.match.params.name}&page=${this.state.cachePage}`).then(function(res) {
-            if (!res) throw Error("No data");
-            return res.json();
-        }).then(function(response) {
-            // don't overwrite newer network data
-            if (!networkDataReceived) {
-                This.setState({
-                    loading: false,
-                    cachePage: This.state.cachePage+1,
-                    news: response.articles
-                })
-            }
-        }).catch(err=>{
-            console.log(err)
-        })
-        } else {
-            this.setState({
-                category: nextProps.match.params.title
-            })
-            newsapi.v2.topHeadlines({
-                category: nextProps.match.params.title,
-                page: this.state.page
-              }).then(response => {
-                if(response.status === 'ok'){
-                    this.setState({
+                });
+                
+            const This = this;
+            // fetch cached data
+            caches.match(`https://newsapi.org/v2/top-headlines?category=${nextProps.match.params.title}&country=${nextProps.match.params.name}&page=${this.state.cachePage}`).then(function(res) {
+                if (!res) throw Error("No data");
+                return res.json();
+            }).then(function(response) {
+                // don't overwrite newer network data
+                if (!networkDataReceived) {
+                    This.setState({
                         loading: false,
-                        page: this.state.page+1,
+                        cachePage: This.state.cachePage+1,
                         news: response.articles
                     })
-                }  else{
+                }
+            }).catch(err=>{
+                console.log(err)
+            })
+            } else {
+                this.setState({
+                    category: nextProps.match.params.title
+                })
+                newsapi.v2.topHeadlines({
+                    category: nextProps.match.params.title,
+                    page: this.state.page
+                  }).then(response => {
+                    if(response.status === 'ok'){
+                        this.setState({
+                            loading: false,
+                            page: this.state.page+1,
+                            news: response.articles
+                        })
+                    }  else{
+                        this.setState({
+                            error: true,
+                            theError: "Sorry! Problem loading new headlines!"
+                        })
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err)
                     this.setState({
                         error: true,
-                        theError: "Sorry! Problem loading new headlines!"
+                        theError: "Offline: Turn on data for latest headlines."
+                    })
+                });
+                
+            const This = this;
+            // fetch cached data
+            caches.match(`https://newsapi.org/v2/top-headlines?category=${nextProps.match.params.title}&page=${this.state.cachePage}`).then(function(res) {
+                if (!res) throw Error("No data");
+                console.log("we got the good stuff")
+                return res.json();
+            }).then(function(response) {
+                console.log(response)
+                // don't overwrite newer network data
+                if (!networkDataReceived) {
+                    This.setState({
+                        loading: false,
+                        cachePage: This.state.cachePage+1,
+                        news: response.articles
                     })
                 }
-            })
-            .catch((err)=>{
+            }).catch(err=>{
                 console.log(err)
-                this.setState({
-                    error: true,
-                    theError: "Offline: Turn on data for latest headlines."
-                })
-            });
-            
-        const This = this;
-        // fetch cached data
-        caches.match(`https://newsapi.org/v2/top-headlines?category=${nextProps.match.params.title}&page=${this.state.cachePage}`).then(function(res) {
-            if (!res) throw Error("No data");
-            console.log("we got the good stuff")
-            return res.json();
-        }).then(function(response) {
-            console.log(response)
-            // don't overwrite newer network data
-            if (!networkDataReceived) {
-                This.setState({
-                    loading: false,
-                    cachePage: This.state.cachePage+1,
-                    news: response.articles
-                })
+            })
             }
-        }).catch(err=>{
-            console.log(err)
-        })
-        }
-    }
+    }    }
 
     addMoreHeadlines = () =>{
         var networkDataReceived = false;
@@ -382,7 +386,7 @@ class category extends Component {
             </Button>
             );
         let fetchError = error?(<Alert className={classes.alert} elevation={6} variant="filled" severity="warning">{theError}</Alert>):null;
-        let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream}/>):(<NewsSkeleton />)
+        let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream} trending={false} />):(<NewsSkeleton />)
         return (
             <Grid container spacing={2}>
             {fetchError}
@@ -392,8 +396,8 @@ class category extends Component {
                 </Grid>
                 <Hidden xsDown>
                     <Grid item md={2} sm={3} xs={12}>
-                        <Categories category={this.state.category} country={this.state.country} urlTo='/worldnews-client/category' />
-                        <Countries  category={this.state.category} country={this.state.country} urlTo={`/worldnews-client/category/${this.state.category}`}  />
+                        <Categories category={this.state.category} country={this.state.country} urlTo='/category' />
+                        <Countries  category={this.state.category} country={this.state.country} urlTo={`/category/${this.state.category}`}  />
                     </Grid>
                 </Hidden>
             </Grid>

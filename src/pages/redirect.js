@@ -15,6 +15,7 @@ const styles = theme => ({
 
 class redirect extends Component {
     componentDidMount(){
+        console.log('redirect did mount')
         setTimeout(() =>{
             window.location.replace(this.props.location.hash.split('#')[1])
           }, 1000);

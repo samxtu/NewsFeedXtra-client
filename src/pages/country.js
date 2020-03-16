@@ -47,10 +47,13 @@ class country extends Component {
             category: 'All',
             page: 1,
             cachePage: 1,
-            country: this.props.match.params.name
+            country: this.props.match.params.name,
+            props: {}
         }
     }
     componentDidMount(){
+        this.setState({props:this.props})
+        console.log('country did mount')
         var networkDataReceived = false;
         if(this.props.match.params.title){
             newsapi.v2.topHeadlines({
@@ -141,8 +144,10 @@ class country extends Component {
         }
     }
     UNSAFE_componentWillReceiveProps(nextProps){
+        if(this.state.props.match.params.title !== nextProps.match.params.title || this.state.props.match.params.name !== nextProps.match.params.name){
+        console.log('country received new props')
         var networkDataReceived = false;
-        this.setState({page:1,cachePage:1})
+        this.setState({page:1,cachePage:1,props: nextProps})
         if(nextProps.match.params.title){
             this.setState({
                 category: nextProps.match.params.title,
@@ -240,6 +245,7 @@ class country extends Component {
             console.log(err)
         })
         }
+    }
     }
 
     addMoreHeadlines = () =>{
@@ -377,7 +383,7 @@ class country extends Component {
             </Button>
             );
         let fetchError = error?(<Alert className={classes.alert} elevation={6} variant="filled" severity="warning">{theError}</Alert>):null;
-        let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream}/>):(<NewsSkeleton />)
+        let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream} trending={false} />):(<NewsSkeleton />)
         return (
             <Grid container spacing={2}>
                 {fetchError}
@@ -387,8 +393,8 @@ class country extends Component {
                 </Grid>
                 <Hidden xsDown>
                     <Grid item md={2} sm={3} xs={12}>
-                        <Categories  category={this.state.category} country={this.state.country}  urlTo={`/worldnews-client/country/${this.state.country}`} />
-                        <Countries  category={this.state.category} country={this.state.country}  urlTo='/worldnews-client/country' />
+                        <Categories  category={this.state.category} country={this.state.country}  urlTo={`/country/${this.state.country}`} />
+                        <Countries  category={this.state.category} country={this.state.country}  urlTo='/country' />
                     </Grid>
                 </Hidden>
             </Grid>

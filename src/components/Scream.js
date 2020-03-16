@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -24,28 +24,31 @@ import Hidden from '@material-ui/core/Hidden';
 const styles = theme => ({
     ...theme.common,
     card: {
-        position: 'relative',
-        display: 'flex',
         paddingBottom:0,
-        marginBottom: 1,
+        marginBottom: 5,
+        position: 'relative',
         [theme.breakpoints.only('xs')]: {
           // height: '',
           paddingBottom:0,
-          marginBottom:0
+          marginBottom:8
         },
         [theme.breakpoints.only('sm')]: {
           // height: 160,
+          display: 'flex',
           paddingBottom:0,
-          marginBottom:0
+          marginBottom:5
         },
         [theme.breakpoints.only('md')]: {
           // height: 160,
+        display: 'flex',
         },
         [theme.breakpoints.only('lg')]: {
           // height: 180,
+        display: 'flex',
         },
         [theme.breakpoints.only('xl')]: {
           // height: 220,
+        display: 'flex',
         },
     },
     button: {
@@ -55,7 +58,8 @@ const styles = theme => ({
     },
     image: {
       [theme.breakpoints.only('xs')]: {
-        minWidth: 90,
+        minWidth: '100%',
+        height: 200
       },
       [theme.breakpoints.only('sm')]: {
         minWidth: 120,
@@ -104,8 +108,7 @@ const styles = theme => ({
       left: '10px',
       margin: 0,
       [theme.breakpoints.only('xs')]: {
-        fontSize: '85%',
-        paddingRight: '8px'
+        fontSize: '100%'
       },
       [theme.breakpoints.only('sm')]: {
         fontSize: '80%',
@@ -121,39 +124,39 @@ const styles = theme => ({
       },
     },
     expand: {
-      transform: 'rotate(0deg)',
-      marginLeft: 'auto',
-      transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-      }),
+      // transform: 'rotate(0deg)',
+      // marginLeft: 'auto',
+      // transition: theme.transitions.create('transform', {
+      //   duration: theme.transitions.duration.shortest,
+      // }),
     },
     expandOpen: {
-      transform: 'rotate(0deg)'
+      // transform: 'rotate(0deg)'
     },
     typoTitle: {
       marginBottom: 0,
       paddingTop: 0,
       marginTop: 0,
       [theme.breakpoints.only('xs')]: {
-        fontSize: '85%',
+        fontSize: '140%',
       },
       [theme.breakpoints.only('sm')]: {
-        fontSize: '90%',
+        fontSize: '120%',
       },
       [theme.breakpoints.only('md')]: {
-        fontSize: '95%',
+        fontSize: '120%',
       },
       [theme.breakpoints.only('lg')]: {
-        fontSize: '100%',
+        fontSize: '120%',
       },
       [theme.breakpoints.only('xl')]: {
-        fontSize: '100%',
+        fontSize: '120%',
       },
     },
     typoSubtitle: {
       marginBottom: 0,
       [theme.breakpoints.only('xs')]: {
-        fontSize: '80%',
+        fontSize: '100%',
       },
       [theme.breakpoints.only('sm')]: {
         fontSize: '80%',
@@ -170,21 +173,6 @@ const styles = theme => ({
     },
     typoDetails: {
       marginBottom: 0,
-      [theme.breakpoints.only('xs')]: {
-        fontSize: '80%',
-      },
-      [theme.breakpoints.only('sm')]: {
-        fontSize: '80%',
-      },
-      [theme.breakpoints.only('md')]: {
-        fontSize: '90%',
-      },
-      [theme.breakpoints.only('lg')]: {
-        fontSize: '100%',
-      },
-      [theme.breakpoints.only('xl')]: {
-        fontSize: '100%',
-      },
     },
     typoButton: {
       marginBottom: 0,
@@ -211,29 +199,25 @@ class Scream extends Component {
   constructor(props){
     super(props)
     this.state = {
-      desc: 'Take a peek',
       expanded: false
     }
   }
 
-  shouldComponentUpdate(nextProps,nextState){
-    return false;
-  }
     render (){
         dayjs.extend(relativeTime);
       
         const handleExpandClick = () => {
-          if(this.state.desc === 'Take a peek') this.setState({ desc: 'Minimize' })
-          if(this.state.desc === 'Minimize') this.setState({ desc: 'Take a peek' })
+          console.log('this was called')
           this.setState({ expanded: !this.state.expanded })
+          console.log(this.state)
         };
-        const { classes, scream: { source: {name}, author, title, description, url, urlToImage, publishedAt, content } } = this.props;
+        const { classes, trending, scream: { source: {name}, author, title, description, url, urlToImage, publishedAt, content } } = this.props;
 
         return (
           <Card className={classes.card}>
             <CardMedia
               className={classes.image}
-              image={urlToImage?(urlToImage.includes('https://')?(urlToImage):(urlToImage.includes('http://')?(urlToImage.replace('http://','https://')):('https://'+urlToImage))):(noImg)}
+              image={urlToImage?(urlToImage.toLowerCase().includes('https://')?(urlToImage):(urlToImage.toLowerCase().includes('http://')?(urlToImage.toLowerCase().replace('http://','https://')):('https://'+urlToImage))):(noImg)}
               title={"Profile"}
             />
             <CardContent className={classes.content}>
@@ -243,12 +227,12 @@ class Scream extends Component {
                 color="primary"
                 component={Link}
                 aria-label="Link to headline source"
-                to={{ pathname: '/worldnews-client/redirect', hash: url }} target="_blank" rel="noopener"
+                to={{ pathname: '/redirect', hash: url }} target="_blank" rel="noopener"
               >
                 {title?(title):('This article does not have a title!')}
               </Typography>
               <Typography variant="body2" className={classes.typoSubtitle} color="textSecondary">
-                {publishedAt?(dayjs(publishedAt).fromNow()):('')} {name?(' from '+name):('')}{author?(' by '+author):('')}
+                {publishedAt?(dayjs(publishedAt).fromNow()):('')} {name?(' from '+name):('')}{author?(' by '+author.split(',')[0]):('')}
               </Typography>
               <Typography
                 className={classes.typoDetails} variant="body1">{description?(description):('')}</Typography>
@@ -259,12 +243,11 @@ class Scream extends Component {
                 <Typography
                 className={classes.typoDetails} paragraph>{content?(content.split('[+')[0]): ('')}</Typography>
             </Collapse>
-            <Hidden only='xs'>
-            <MyButton  tip="History">
-                <FlagIcon className={classes.typoButton} color="primary" />
-              </MyButton>
-              <span className={classes.link}>:Trending</span>
-              <span
+              {trending?(
+              <Fragment><FlagIcon className={classes.typoButton} color="primary" />
+              <span className={classes.link}>:Trending</span></Fragment>):null}
+               <Hidden only='xs'>
+                 <span
                 className={clsx(classes.expand,classes.link, {
                   [classes.expandOpen]: this.state.expanded,
                 })}
@@ -274,31 +257,15 @@ class Scream extends Component {
                 <MyButton btnClassName={classes.typo} tip="More details..." btnName={title} >
                   <AllOutIcon className={classes.typoButton} color="primary" />
                 </MyButton>
-                {this.state.desc}
+                {this.state.expanded?'Minimize':'Take a peek'}
               </span>
-              <Link to={{ pathname: '/worldnews-client/redirect', hash: url }} target="_blank" rel="noopener" className={classes.link}>
+              </Hidden>
+              <Link to={{ pathname: '/redirect', hash: url }} target="_blank" rel="noopener" className={classes.link}>
                 <MyButton btnClassName={classes.typo} tip="View on original source">
                   <LinkIcon className={classes.typoButton} color="primary" />
                 </MyButton>
-                View on source
+                Read
               </Link>
-              </Hidden>
-              <Hidden smUp>
-              <span
-                className={clsx(classes.expand,classes.link, {
-                  [classes.expandOpen]: this.state.expanded,
-                })}
-                onClick={handleExpandClick}
-                aria-expanded={this.state.expanded}
-                >
-                <AllOutIcon className={classes.typoButton} color="primary" />
-                {this.state.desc}
-              </span>
-              <Link aria-label="Link to headline source" to={{ pathname: '/worldnews-client/redirect', hash: url }} target="_blank" rel="noopener" className={classes.link}>
-                  <LinkIcon className={classes.typoButton} color="primary" />
-                View on source
-              </Link>
-              </Hidden>
             </CardContent>
           </Card>
         );
@@ -306,4 +273,4 @@ class Scream extends Component {
 }
 
 
-export default (withSyles(styles)(Scream));
+export default withSyles(styles)(Scream);
