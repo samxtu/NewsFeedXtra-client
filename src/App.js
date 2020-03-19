@@ -186,30 +186,23 @@ function App() {
     ('/category'):(
      (window.location.href.split('?')[0].includes("country/") === true)?
      `/country/${window.location.href.split('?')[0].split('country/')[1].split('/')[0]}`
-    :(
-      (window.location.href.split('?')[0].includes('results') === true)?(
+    :((window.location.href.split('?')[0].includes('results') === true)?(
         (window.location.href.split('?')[0].includes('results/') === true)?(
-          (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length !== 2)?(
-            (window.location.href.split('?')[0].split('results/')[1].split('/')[1] !== null)?(
+          (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length === 2)?
+           `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}`: 
+           (window.location.href.split('?')[0].split('results/')[1].split('/')[1]?(
                `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[1]}` 
-             ):  `/results` 
-           ):  `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}` 
-      ) :  `/results` 
-    ):'/category'));
+             ): `/results` ) ) : `/results` ):'/category'));
      urlToCountry = (window.location.href.split('?')[0].includes("country/") === true)?
-    ('/country'):(
-     (window.location.href.split('?')[0].includes("category/") === true)?
+    ('/country'):( (window.location.href.split('?')[0].includes("category/") === true)?
      `/category/${window.location.href.split('?')[0].split('category/')[1].split('/')[0]}`
-    :(
-      (window.location.href.split('?')[0].includes('results') === true)?(
+    :((window.location.href.split('?')[0].includes('results') === true)?(
         (window.location.href.split('?')[0].includes('results/') === true)?(
           (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length === 2)?(
-            (window.location.href.split('?')[0].split('results/')[1].split('/')[1] !== null)?(
+            (window.location.href.split('?')[0].split('results/')[1].split('/')[1])?(
                `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[1]}` 
-             ):  `/results` 
-           ):  `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}` 
-      ) :  `/results` 
-    ):'/country'));
+             ):  `/results` ):  `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}` 
+             ) :  `/results`  ):'/country'));
      search = window.location.pathname.split('?')[1];
   }
 
@@ -266,9 +259,9 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <div className={classes.root}>
         <Router>
-          <Navbar newClass={classes.appBar} openDrawer={toggleDrawer('right', true)}/>
-          <Drawer anchor="right" open={straight} onClose={toggleDrawer('right', false)}>
-            {sideList('right')}
+          <Navbar newClass={classes.appBar} openDrawer={toggleDrawer('left', true)}/>
+          <Drawer anchor="left" open={straight} onClose={toggleDrawer('left', false)}>
+            {sideList('left')}
           </Drawer>
           
           <ClickAwayListener onClickAway={ handleClickAway }>

@@ -33,7 +33,6 @@ const styles = () => ({
       left:'45%'
     },
   });
-
 class category extends Component {
     constructor(props){
         super(props);
@@ -107,6 +106,7 @@ class category extends Component {
         } else {
             newsapi.v2.topHeadlines({
                 category: this.props.match.params.title,
+                language: 'en',
                 page: this.state.page
               }).then(response => {
                 if(response.status === 'ok'){
@@ -207,6 +207,7 @@ class category extends Component {
                 })
                 newsapi.v2.topHeadlines({
                     category: nextProps.match.params.title,
+                    language: 'en',
                     page: this.state.page
                   }).then(response => {
                     if(response.status === 'ok'){
@@ -361,6 +362,7 @@ class category extends Component {
     render (){
         const {classes} = this.props;
         const {loading, news, error, theError, moreLoading } = this.state;
+        const headers = [];
         let moreButton = moreLoading?(
             <Fragment>
                 <Button
@@ -386,7 +388,12 @@ class category extends Component {
             </Button>
             );
         let fetchError = error?(<Alert className={classes.alert} elevation={6} variant="filled" severity="warning">{theError}</Alert>):null;
-        let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream} trending={false} />):(<NewsSkeleton />)
+        let recentScreamMarkUp = !loading?news.map((scream,ind)=>{
+            if(!headers.includes(scream.title)){
+                headers.push(scream.title)
+                return (<Scream key={`${scream.title}${ind}`} scream={scream} trending={false} />)
+            } else return null
+        }):(<NewsSkeleton />)
         return (
             <Grid container spacing={2}>
             {fetchError}

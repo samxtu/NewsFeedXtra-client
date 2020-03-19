@@ -94,7 +94,7 @@ const styles = theme => ({
   inputRoot: {
     color: 'inherit',
     [theme.breakpoints.only('xs')]: {
-      height: '60%'
+      height:'90%'
     },
     [theme.breakpoints.only('sm')]: {
       height: '70%'
@@ -132,11 +132,12 @@ const styles = theme => ({
     width: '100%',
     [theme.breakpoints.only('xs')]: {
       padding: theme.spacing(1, 1, 1, 3),
-      height: '80%',
-      fontSize: '80%',
-      width: 80,
+      marginTop:1,
+      height: '100%',
+      fontSize: '100%',
+      width: 120,
       '&:focus': {
-        width: 120,
+        width: 150,
       },
     },
     [theme.breakpoints.only('sm')]: {

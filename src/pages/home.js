@@ -36,6 +36,8 @@ const styles = () => ({
     },
   });
 
+  const headers = [];
+
 class home extends Component {
     constructor(props){
         super(props);
@@ -53,9 +55,7 @@ class home extends Component {
     fetchOnline = () =>{
         return newsapi.v2.topHeadlines({
         language: 'en',
-        // sortBy: 'popularity',
-        // from: new Date(new Date().getTime() - (48 * 60 * 60 * 1000)).toISOString(),
-        // to: new Date().toISOString(),
+        sortBy: 'popularity',
         page: this.state.page
         }).then(response => {
             if(response.status === 'ok'){
@@ -206,7 +206,12 @@ class home extends Component {
             </Button>
             );
         let fetchError = error?(<Alert className={classes.alert} elevation={6} variant="filled" severity="warning">{theError}</Alert>):null;
-        let recentScreamMarkUp = !loading?news.map((scream,ind)=><Scream key={`${scream.title}${ind}`} scream={scream} trending={true} />):(<NewsSkeleton />)
+        let recentScreamMarkUp = !loading?news.map((scream,ind)=>{
+            if(!headers.includes(scream.title)){
+                headers.push(scream.title)
+                return (<Scream key={`${scream.title}${ind}`} scream={scream} trending={true} />)
+            } else return null
+        }):(<NewsSkeleton />)
         return (
             <Grid container spacing={1}>
                 {fetchError}

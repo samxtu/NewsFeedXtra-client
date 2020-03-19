@@ -76,14 +76,15 @@ const styles = theme => ({
     },
     content: {
         objectFit: 'cover',
-        padding: 0,
+        textAlign:"justify",
         "&:last-child": {
-          paddingBottom: 0
+          padding:'0 5px 0 2px'
         },
         width: '100%',
         [theme.breakpoints.only('xs')]: {
           marginLeft: '3px',
-          padding:'0 0 0 3px'
+          marginRight:'5px',
+          padding:'0 5px 0 3px'
         },
         [theme.breakpoints.only('sm')]: {
           marginLeft: '3px',
@@ -136,7 +137,10 @@ const styles = theme => ({
     typoTitle: {
       marginBottom: 0,
       paddingTop: 0,
-      marginTop: 0,
+      display:'block',
+      width:'97%',
+      margin:'0px 5px 0px 2px',
+      textAlign:'left',
       [theme.breakpoints.only('xs')]: {
         fontSize: '140%',
       },
@@ -154,7 +158,8 @@ const styles = theme => ({
       },
     },
     typoSubtitle: {
-      marginBottom: 0,
+      margin:'0px 5px 0px 2px',
+      align:'justify',
       [theme.breakpoints.only('xs')]: {
         fontSize: '100%',
       },
@@ -172,7 +177,9 @@ const styles = theme => ({
       },
     },
     typoDetails: {
-      marginBottom: 0,
+      margin:'0px 5px 0px 2px',
+      paddingRight:'5px',
+      align:'justify',
     },
     typoButton: {
       marginBottom: 0,
@@ -211,7 +218,7 @@ class Scream extends Component {
           this.setState({ expanded: !this.state.expanded })
           console.log(this.state)
         };
-        const { classes, trending, scream: { source: {name}, author, title, description, url, urlToImage, publishedAt, content } } = this.props;
+        const { classes, trending, scream: { source: {name}, title, description, url, urlToImage, publishedAt, content } } = this.props;
 
         return (
           <Card className={classes.card}>
@@ -228,18 +235,15 @@ class Scream extends Component {
                 component={Link}
                 aria-label="Link to headline source"
                 to={{ pathname: '/redirect', hash: url }} target="_blank" rel="noopener"
-              >
-                {title?(title):('This article does not have a title!')}
+              ><b>{title?(title):('This article does not have a title!')}</b>
               </Typography>
               <Typography variant="body2" className={classes.typoSubtitle} color="textSecondary">
-                {publishedAt?(dayjs(publishedAt).fromNow()):('')} {name?(' from '+name):('')}{author?(' by '+author.split(',')[0]):('')}
+                {publishedAt?(dayjs(publishedAt).fromNow()):('')} {name?(' from '+name):('')}
               </Typography>
-              <Typography
-                className={classes.typoDetails} variant="body1">{description?(description):('')}</Typography>
+              <Typography className={classes.typoDetails} variant="body1">{description?(description):('')}</Typography>
                 <Hidden smDown><br/></Hidden>
             <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-                <Typography
-                className={classes.typoDetails} variant='body2' color='textSecondary' >Some content:</Typography>
+                <Typography className={classes.typoDetails} variant='body2' color='textSecondary' >Some content:</Typography>
                 <Typography
                 className={classes.typoDetails} paragraph>{content?(content.split('[+')[0]): ('')}</Typography>
             </Collapse>
