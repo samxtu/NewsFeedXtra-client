@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import MyButton from '../util/MyButton';
 import clsx from 'clsx';
-import noImg from '../images/no-image.jpg';
+import noImg from '../images/no-image.png';
 
 //MUI stuff
 import withSyles from '@material-ui/core/styles/withStyles';
@@ -24,6 +24,7 @@ import Hidden from '@material-ui/core/Hidden';
 const styles = theme => ({
     ...theme.common,
     card: {
+        fontFamily: "Spectral",
         paddingBottom:0,
         marginBottom: 5,
         position: 'relative',
@@ -52,6 +53,7 @@ const styles = theme => ({
         },
     },
     button: {
+      fontFamily: "Spectral",
         float: 'right',
         padding: 0,
         margin: 0
@@ -75,6 +77,7 @@ const styles = theme => ({
       },
     },
     content: {
+      fontFamily: "Spectral",
         objectFit: 'cover',
         textAlign:"justify",
         "&:last-child": {
@@ -104,6 +107,7 @@ const styles = theme => ({
         },
     },
     link: {
+      fontFamily: "Spectral",
       position: 'relative',
       color: 'inherit',
       left: '10px',
@@ -135,6 +139,7 @@ const styles = theme => ({
       // transform: 'rotate(0deg)'
     },
     typoTitle: {
+      fontFamily: "Spectral",
       marginBottom: 0,
       paddingTop: 0,
       display:'block',
@@ -158,6 +163,7 @@ const styles = theme => ({
       },
     },
     typoSubtitle: {
+      fontFamily: "Spectral",
       margin:'0px 5px 0px 2px',
       align:'justify',
       [theme.breakpoints.only('xs')]: {
@@ -177,6 +183,7 @@ const styles = theme => ({
       },
     },
     typoDetails: {
+      fontFamily: "Spectral",
       margin:'0px 5px 0px 2px',
       paddingRight:'5px',
       align:'justify',

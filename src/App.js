@@ -12,6 +12,7 @@ import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 
 //pages
 import home from "./pages/home";
+import topStories from "./pages/topStories";
 import redirect from "./pages/redirect";
 import results from "./pages/results";
 import category from "./pages/category";
@@ -20,6 +21,7 @@ import country from "./pages/country";
 //Components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollUp from "./components/ScrollUp";
 //mui stuff
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -130,6 +132,15 @@ const theme = createMuiTheme(mainTheme);
 function App() {
   const classes = useStyles();
   const [straight, setState] = React.useState(false);
+  const myCountry = localStorage.myCountry;
+  if(!myCountry || myCountry === 'undefined'){
+    fetch(`http://api.ipstack.com/check?access_key=${process.env.REACT_APP_IPSTACK_API_KEY}`)
+    .then(res =>{
+     res.json().then(data=>{
+      localStorage.setItem('myCountry',data.country_code)
+     })
+    })
+  }
   let urlToCategory = (window.location.href.split('?')[0].includes("category/") === true)?
   ('/category'):(
    (window.location.href.split('?')[0].includes("country/") === true)?
@@ -143,13 +154,12 @@ function App() {
            ):  `/results` 
          ):  `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}` 
     ) :  `/results` 
-  ):'/category'));
+  ):(window.location.href.split('?')[0].includes("/top-stories")?
+  '/top-stories': '/category')));
   let urlToCountry = (window.location.href.split('?')[0].includes("country/") === true)?
   ('/country'):(
    (window.location.href.split('?')[0].includes("category/") === true)?
-   `/category/${window.location.href.split('?')[0].split('category/')[1].split('/')[0]}`
-  :(
-    (window.location.href.split('?')[0].includes('results') === true)?(
+   `/country`:((window.location.href.split('?')[0].includes('results') === true)?(
       (window.location.href.split('?')[0].includes('results/') === true)?(
         (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length === 2)?(
           (window.location.href.split('?')[0].split('results/')[1].split('/')[1] !== null)?(
@@ -192,11 +202,11 @@ function App() {
            `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}`: 
            (window.location.href.split('?')[0].split('results/')[1].split('/')[1]?(
                `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[1]}` 
-             ): `/results` ) ) : `/results` ):'/category'));
+             ): `/results` ) ) : `/results` ):(window.location.href.split('?')[0].includes("/top-stories")?
+              '/top-stories': '/category')));
      urlToCountry = (window.location.href.split('?')[0].includes("country/") === true)?
     ('/country'):( (window.location.href.split('?')[0].includes("category/") === true)?
-     `/category/${window.location.href.split('?')[0].split('category/')[1].split('/')[0]}`
-    :((window.location.href.split('?')[0].includes('results') === true)?(
+     `/country`:((window.location.href.split('?')[0].includes('results') === true)?(
         (window.location.href.split('?')[0].includes('results/') === true)?(
           (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length === 2)?(
             (window.location.href.split('?')[0].split('results/')[1].split('/')[1])?(
@@ -296,13 +306,15 @@ function App() {
           <div className="container">
             <Switch>
               <Route exact path="/" component={home} />   
+              <Route exact path="/top-stories/:title?" component={topStories} />   
               <Route exact path="/redirect" component={redirect} />   
               <Route exact path="/results/:param1?/:param2?" component={results} />   
               <Route exact path="/country/:name/:title?" component={country} />   
-              <Route exact path="/category/:title/:name?" component={category} />   
+              <Route exact path="/category/:title" component={category} />   
             </Switch>
-          <Footer />
-          </div>
+            <ScrollUp />
+            <Footer />
+            </div>
         </Router>
       </div>
     </MuiThemeProvider>

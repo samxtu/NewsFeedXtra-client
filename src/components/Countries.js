@@ -11,6 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 
 const useStyles = makeStyles((theme) => ({
   button: {
+    fontFamily: "Playfair Display",
     display: 'block',
     marginTop: theme.spacing(2),
     [theme.breakpoints.only('sm')]: {
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   formControl: {
+    fontFamily: "Playfair Display",
     margin: theme.spacing(1),
     minWidth: '90%',
   },
@@ -121,10 +123,12 @@ export default function ControlledOpenSelect({country,category,urlTo,search}) {
               text.code===country?(
                 <MenuItem 
                   component={Link}
+                  href={`${urlTo}/${text.code.toLowerCase()}`}
                   to={{ pathname: `${urlTo}/${text.code.toLowerCase()}`, search: search }} key={text.label} value={text.code}>{'=>'+text.label}</MenuItem>
               ):(
               <MenuItem 
                 component={Link}
+                href={`${urlTo}/${text.code.toLowerCase()}`}
                 to={{ pathname: `${urlTo}/${text.code.toLowerCase()}`, search: search }} key={text.label} value={text.code}>{text.label}</MenuItem>
             )))}
           

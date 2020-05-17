@@ -14,6 +14,7 @@ import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
 const Theme = createMuiTheme()
 const useStyles = makeStyles({
   card: {
+    fontFamily: "Playfair Display",
     padding: 0
   },
   bullet: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
     margin: 0,
   },
   header: {
+    fontFamily: "Playfair Display",
     padding: 0,
     margin: 0,
     [Theme.breakpoints.only('sm')]: {
@@ -35,6 +37,7 @@ const useStyles = makeStyles({
     },
   },
   subheader: {
+    fontFamily: "Playfair Display",
     padding: 0,
     margin: 0,
     [Theme.breakpoints.only('sm')]: {
@@ -42,6 +45,7 @@ const useStyles = makeStyles({
     }
   },
   thecard: {
+    fontFamily: "Playfair Display",
     padding: 0,
     "&:last-child": {
       paddingBottom: 0
@@ -64,6 +68,7 @@ const useStyles = makeStyles({
     },
   },
   link: {
+    fontFamily: "Playfair Display",
     padding: 0
   },
   icon:{
@@ -110,7 +115,7 @@ export default function SimpleCard({category,country,urlTo,search}) {
         className={classes.noPad}>
             {['general','entertainment','business','health','science','sports','technology'].map((text, index) => (
                 text === category?(
-                <Link  key={index+text} to={{ pathname: `${urlTo}/${text}`, search: search }}  className={classes.link}>
+                <Link  key={index+text} href={`${urlTo}/${text}`} to={{ pathname: `${urlTo}/${text}`, search: search }}  className={classes.link}>
                 <ListItem
                 className={classes.noPad} button key={text}>
                 <CenterFocusStrongIcon className={classes.icon} />
@@ -118,7 +123,7 @@ export default function SimpleCard({category,country,urlTo,search}) {
                 </ListItem>
                 </Link>
                 ):(
-                <Link  key={index+text} to={{ pathname: `${urlTo}/${text}`, search: search  }}  className={classes.link}>
+                <Link  key={index+text} href={`${urlTo}/${text}`} to={{ pathname: `${urlTo}/${text}`, search: search  }}  className={classes.link}>
                 <ListItem 
                 className={classes.noPad} button key={text}>
                 <EditAttributesIcon className={classes.icon} />

@@ -31,6 +31,7 @@ export default function CustomSeparator({country,category,search,param1}) {
   });
   
   useEffect(()=>{   
+      console.log('useEffect is called')
       const countryArray = [
         { code: 'AR', label: 'Argentina', phone: '54' },
         { code: 'AT', label: 'Austria', phone: '43' },
@@ -138,3 +139,7 @@ export default function CustomSeparator({country,category,search,param1}) {
     </div>
   );
 }
+
+
+
+var s = ''

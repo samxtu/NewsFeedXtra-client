@@ -15,12 +15,14 @@ import Hidden from '@material-ui/core/Hidden';
 const styles = theme => ({
     ...theme.common, 
     root: {
+      fontFamily: "Playfair Display",
       flexGrow: 1,
     },
   menuButton: {
     marginRight: 0
   },
   search: {
+    fontFamily: "Playfair Display",
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     paddingLeft: theme.spacing(1),
@@ -92,6 +94,7 @@ const styles = theme => ({
     },
   },
   inputRoot: {
+    fontFamily: "Playfair Display",
     color: 'inherit',
     [theme.breakpoints.only('xs')]: {
       height:'90%'
@@ -110,6 +113,7 @@ const styles = theme => ({
     },
   },
   navhomelink: {
+    fontFamily: "Playfair Display",
     color: 'inherit',
     [theme.breakpoints.only('xs')]: {
       fontSize: '70%'
@@ -128,6 +132,7 @@ const styles = theme => ({
     },
   },
   inputInput: {
+    fontFamily: "Playfair Display",
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.only('xs')]: {
@@ -222,7 +227,7 @@ class Navbar extends Component {
                       <MenuIcon />
                     </IconButton>
                   </Hidden>
-                    <Link aria-label="Link to website homepage" className={classes.navhomelink} to="/"><h2>NewsFasta</h2></Link>
+                    <Link aria-label="Link to website homepage" className={classes.navhomelink} href='/' to="/"><h2>NewsFeedXtra</h2></Link>
                     <form className={classes.search} onSubmit={this.submitSearch}>
                         <Link aria-label="Link to search results" id='linktores' to={{ pathname:'/results', search: search, state: {details:{}} }} />
                         <div className={classes.searchIcon}>

@@ -19,10 +19,15 @@ const NewsAPI = require('newsapi');
 // All options passed to topHeadlines are optional, but you need to include at least one of them
 const styles = theme => ({
     ...theme.common,
+    container:{
+        fontFamily: "Playfair Display"
+    },
     full: {
+        fontFamily: "Playfair Display",
         width: 'inherit 100%'
     },
     center: {
+        fontFamily: "Playfair Display",
         margin: '0 0 0 10%',
     }
 })
@@ -50,10 +55,10 @@ class results extends Component {
                 search: this.props.location.search.split('?')[1],
                 props: this.props
             })
-            const newsapi = new NewsAPI('9047eaa819904eb49205d2d53ab54356');
+            const newsapi = new NewsAPI(process.env.REACT_APP_WORLDNEWS_API_KEY);
             if(!this.props.match.params.param1){
                 newsapi.v2.everything({
-                    q: this.props.location.search.split('?')[1],
+                    qInTitle: this.props.location.search.split('?')[1],
                     sortBy:'publishedAt',
                     language: 'en',
                     pageSize: 50
@@ -73,7 +78,7 @@ class results extends Component {
             else if(this.props.match.params.param1 && this.props.match.params.param1.length ===2){
                 if(this.props.match.params.param2 && this.props.match.params.param2.length > 2){
                     newsapi.v2.topHeadlines({
-                        q: this.props.location.search.split('?')[1],
+                        qInTitle: this.props.location.search.split('?')[1],
                         sortBy:'publishedAt',
                         language: 'en',
                         country: this.props.match.params.param1,
@@ -100,7 +105,7 @@ class results extends Component {
                     })
                 } else{
                     newsapi.v2.topHeadlines({
-                        q: this.props.location.search.split('?')[1],
+                        qInTitle: this.props.location.search.split('?')[1],
                         sortBy:'publishedAt',
                         language: 'en',
                         country: this.props.match.params.param1,
@@ -126,7 +131,7 @@ class results extends Component {
             } else if(this.props.match.params.param1 && this.props.match.params.param1.length > 2){
                 if(this.props.match.params.param2 && this.props.match.params.param2.length ===2){
                     newsapi.v2.topHeadlines({
-                        q: this.props.location.search.split('?')[1],
+                        qInTitle: this.props.location.search.split('?')[1],
                         sortBy:'publishedAt',
                         language: 'en',
                         country: this.props.match.params.param2,
@@ -153,7 +158,7 @@ class results extends Component {
                     })
                 } else {
                     newsapi.v2.topHeadlines({
-                        q: this.props.location.search.split('?')[1],
+                        qInTitle: this.props.location.search.split('?')[1],
                         sortBy:'publishedAt',
                         language: 'en',
                         category: this.props.match.params.param1,
@@ -179,18 +184,19 @@ class results extends Component {
             }
     }
     UNSAFE_componentWillReceiveProps(nextProps){
-        const newsApi = new NewsAPI('9047eaa819904eb49205d2d53ab54356');
+        const newsApi = new NewsAPI(process.env.REACT_APP_WORLDNEWS_API_KEY);
         if(this.state.props.match.params.param1 !== nextProps.match.params.param1 
             || this.state.props.match.params.param2 !== nextProps.match.params.param2 
             || this.state.props.location.search !== nextProps.location.search){
-            this.setState({props: nextProps })
+            this.setState({props: nextProps,loading: true })
+            window.scrollTo(0, 0)
             if(nextProps.location.search){
                 this.setState({
                     search: nextProps.location.search.split('?')[1]
                 })
             if(!nextProps.match.params.param1){
                 newsApi.v2.everything({
-                    q: nextProps.location.search.split('?')[1],
+                    qInTitle: nextProps.location.search.split('?')[1],
                     sortBy:'publishedAt',
                     language: 'en',
                     pageSize: 50
@@ -217,7 +223,7 @@ class results extends Component {
             else if(nextProps.match.params.param1 && nextProps.match.params.param1.length ===2){
                 if(nextProps.match.params.param2 && nextProps.match.params.param2.length > 2){
                     newsApi.v2.topHeadlines({
-                        q: nextProps.location.search.split('?')[1],
+                        qInTitle: nextProps.location.search.split('?')[1],
                         sortBy:'publishedAt',
                         language: 'en',
                         country: nextProps.match.params.param1,
@@ -244,7 +250,7 @@ class results extends Component {
                     })
                 } else{
                     newsApi.v2.topHeadlines({
-                        q: nextProps.location.search.split('?')[1],
+                        qInTitle: nextProps.location.search.split('?')[1],
                         sortBy:'publishedAt',
                         language: 'en',
                         country: nextProps.match.params.param1,
@@ -272,9 +278,8 @@ class results extends Component {
             } else if(nextProps.match.params.param1 && nextProps.match.params.param1.length > 2){
                 if(nextProps.match.params.param2 && nextProps.match.params.param2.length ===2){
                     newsApi.v2.topHeadlines({
-                        q: nextProps.location.search.split('?')[1],
+                        qInTitle: nextProps.location.search.split('?')[1],
                         sortBy:'publishedAt',
-                        language: 'en',
                         country: nextProps.match.params.param2,
                         category: nextProps.match.params.param1,
                         pageSize: 50
@@ -299,7 +304,7 @@ class results extends Component {
                     })
                 } else {
                     newsApi.v2.topHeadlines({
-                        q: nextProps.location.search.split('?')[1],
+                        qInTitle: nextProps.location.search.split('?')[1],
                         sortBy:'publishedAt',
                         language: 'en',
                         category: nextProps.match.params.param1,
@@ -339,7 +344,7 @@ class results extends Component {
         let resultsCount = totalResults;
         const headers = [];
         let recentScreamMarkUp = !loading?news.map((scream,ind)=>{
-            if(!headers.includes(scream.title)){
+            if(scream.title && !headers.includes(scream.title)){
                 headers.push(scream.title)
                 return (<Scream key={`${scream.title}${ind}`} scream={scream} trending={false} />)
             } else{
@@ -349,8 +354,13 @@ class results extends Component {
         }
         ):(<NewsSkeleton />)
         return (
-            <Grid container spacing={2}>
-                <Grid item md={10} sm={9} xs={12}>
+            <Grid container spacing={2} className={classes.container}>
+            <Hidden smDown>
+            <Grid item md={2}>
+                
+            </Grid>
+            </Hidden>
+                <Grid item md={8} sm={9} xs={12}>
                     {resultsCount && !loading?(
                     <Typography className={classes.center}  variant='body2' color='textSecondary'>{resultsCount} results for <em>{this.props.location.search.split('?')[1]}</em></Typography>
                    ):(!loading?(<Typography className={classes.full}  variant='h5' color='textSecondary'>{resultsCount} results for <em>{this.props.location.search.split('?')[1]}</em></Typography>):(''))} 

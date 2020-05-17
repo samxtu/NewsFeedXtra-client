@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 const styles = theme => ({
     ...theme.common,
     redirecting: {
+        fontFamily: "Playfair Display",
         margin: '10% 0 10% 0',
         width: '100%'
     }
