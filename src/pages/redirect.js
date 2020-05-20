@@ -10,7 +10,8 @@ const styles = theme => ({
     redirecting: {
         fontFamily: "Playfair Display",
         margin: '10% 0 10% 0',
-        width: '100%'
+        width: '100%',
+        minHeight: '500px'
     }
 })
 

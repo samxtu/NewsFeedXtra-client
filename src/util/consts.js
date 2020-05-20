@@ -162,7 +162,6 @@ const countryArray = [
     { code: 'TV', label: 'Tuvalu', api: 'gnews' },
     { code: 'UG', label: 'Uganda', api: 'gnews' },
     { code: 'AE', label: 'United Arab Emirates', api: 'gnews' },
-    { code: 'UK', label: 'United Arab Emirates', api: 'gnews' },
     { code: 'UM', label: 'United States Minor Outlying Islands', api: 'gnews' },
     { code: 'UY', label: 'Uruguay', api: 'gnews' },
     { code: 'UZ', label: 'Uzbekistan', api: 'gnews' },
@@ -241,3 +240,14 @@ const countryArray = [
     { code: 'VE', label: 'Venezuela', api: 'newsAPI' },
     { code: 'ZA', label: 'South Africa', api: 'newsAPI' }
 ];
+function compare( a, b ) {
+    if ( a.label < b.label ){
+        return -1;
+    }
+    if ( a.label > b.label ){
+        return 1;
+    }
+    return 0;
+}
+
+export default countryArray.sort(compare);

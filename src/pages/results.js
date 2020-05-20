@@ -1,5 +1,4 @@
 import React , { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
 //Components
 import Scream from '../components/Scream';
 import Categories from '../components/Categories';
@@ -12,11 +11,10 @@ import Filters from '../components/Filters';
 import Typography  from '@material-ui/core/Typography';
 import withSyles from '@material-ui/core/styles/withStyles';
 import Hidden from '@material-ui/core/Hidden';
+import Grid from '@material-ui/core/Grid';
 
 //newsapi
 const NewsAPI = require('newsapi');
-// To query /v2/top-headlines
-// All options passed to topHeadlines are optional, but you need to include at least one of them
 const styles = theme => ({
     ...theme.common,
     container:{
@@ -31,7 +29,6 @@ const styles = theme => ({
         margin: '0 0 0 10%',
     }
 })
-
 
 class results extends Component {
     constructor(props){
@@ -183,6 +180,7 @@ class results extends Component {
                 }
             }
     }
+    
     UNSAFE_componentWillReceiveProps(nextProps){
         const newsApi = new NewsAPI(process.env.REACT_APP_WORLDNEWS_API_KEY);
         if(this.state.props.match.params.param1 !== nextProps.match.params.param1 
@@ -205,6 +203,7 @@ class results extends Component {
                         console.log(response.totalResults)
                         this.setState({
                             loading: false,
+                            error: false,
                             news: response.articles,
                             totalResults: response.totalResults
                         })
@@ -234,6 +233,7 @@ class results extends Component {
                             console.log(response.totalResults)
                             this.setState({
                                 loading: false,
+                                error: false,
                                 news: response.articles,
                                 totalResults: response.totalResults
                             })
@@ -260,6 +260,7 @@ class results extends Component {
                             console.log(response.totalResults)
                             this.setState({
                                 loading: false,
+                                error: false,
                                 news: response.articles,
                                 totalResults: response.totalResults
                             })
@@ -288,6 +289,7 @@ class results extends Component {
                             console.log(response.totalResults)
                             this.setState({
                                 loading: false,
+                                error: false,
                                 news: response.articles,
                                 totalResults: response.totalResults
                             })
@@ -314,6 +316,7 @@ class results extends Component {
                             console.log(response.totalResults)
                             this.setState({
                                 loading: false,
+                                error: false,
                                 news: response.articles,
                                 totalResults: response.totalResults
                             })

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import countryArray from '../util/consts';
 //MUI stuff
 import AppBar from '@material-ui/core/AppBar';
 import withSyles from '@material-ui/core/styles/withStyles';
@@ -7,9 +8,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
 import {fade} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import MenuIcon from '@material-ui/icons/Menu';
-import IconButton from '@material-ui/core/IconButton';
+// import MenuIcon from '@material-ui/icons/Menu';
+// import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import Button from '@material-ui/core/Button';
 // mui icons 
 
 const styles = theme => ({
@@ -18,8 +22,17 @@ const styles = theme => ({
       fontFamily: "Playfair Display",
       flexGrow: 1,
     },
-  menuButton: {
-    marginRight: 0
+  // menuButton: {
+  //   marginRight: 0
+  // },
+  toolbar:{
+    marginRight: '1%'
+  },
+  toolbar2:{
+    minHeight: '36.5px'
+  },
+  mobileBtn:{
+    width: '49%'
   },
   search: {
     fontFamily: "Playfair Display",
@@ -183,12 +196,41 @@ const styles = theme => ({
     },
   },
 })
-  
+const categoriesArray = [
+  {
+      id: 'general',
+      sources: 'abc-news,al-jazeera-english,associated-press,axios,bbc-news,cbc-news,cbs-news,cnn,fox-news,google-news,google-news-au,google-news-ca,google-news-in,google-news-uk,independent,nbc-news,news24,newsweek,reuters,the-huffington-post'
+  },{
+      id:'business',
+      sources: 'australian-financial-review,bloomberg,business-insider,business-insider-uk,cnbc,financial-post,the-wall-street-journal,fortune'
+  },{
+      id:'entertainment',
+      sources: 'buzzfeed,entertainment-weekly,ign,mashable,mtv-news,mtv-news-uk,polygon,the-lad-bible'
+  },{
+      id:'health',
+      sources:'medical-news-today'
+  },{
+      id:'sports',
+      sources: 'bbc-sport,bleacher-report,espn,espn-cric-info,football-italia,four-four-two,fox-sports,nfl-news,nhl-news,talksport,the-sport-bible'
+  },{
+      id:'science',
+      sources:'national-geographic,new-scientist,next-big-future'
+  },{
+      id:'technology',
+      sources: 'ars-technica,crypto-coins-news,engadget,hacker-news,recode,techcrunch,techradar,the-next-web,the-verge,wired'
+  }
+]
+const ITEM_HEIGHT = 48;
+var urlToCategory='';
+var urlToCountry='';
+
 class Navbar extends Component {
   constructor(props){
     super(props)
     this.state = {
       search: '',
+      anchorEl1: null,
+      anchorEl2: null,
       redirect: false
     }
   }
@@ -209,14 +251,106 @@ class Navbar extends Component {
     })
   }
     render (){
-        const { newClass, classes, openDrawer } = this.props;
-        const { search } = this.state;
+        const { newClass, classes, 
+          // openDrawer,
+          // activateListener,
+          //  approp: {urlToCategory, urlToCountry} 
+          } = this.props;
+        const { search, anchorEl1, anchorEl2 } = this.state;
         
+  const isMenu1Open = Boolean(anchorEl1);
+  const isMenu2Open = Boolean(anchorEl2);
+  const funcToStore = ()=>{
+    urlToCategory = (window.location.href.split('?')[0].includes("category/") === true)?
+   ('/category'):(
+    (window.location.href.split('?')[0].includes("country/") === true)?
+    `/country/${window.location.href.split('?')[0].split('country/')[1].split('/')[0]}`
+   :((window.location.href.split('?')[0].includes('results') === true)?(
+       (window.location.href.split('?')[0].includes('results/') === true)?(
+         (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length === 2)?
+          `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}`: 
+          (window.location.href.split('?')[0].split('results/')[1].split('/')[1]?(
+              `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[1]}` 
+            ): `/results` ) ) : `/results` ):(window.location.href.split('?')[0].includes("/top-stories")?
+             '/top-stories': '/category')));
+    urlToCountry = (window.location.href.split('?')[0].includes("country/") === true)?
+   ('/country'):( (window.location.href.split('?')[0].includes("category/") === true)?
+    `/country`:((window.location.href.split('?')[0].includes('results') === true)?(
+       (window.location.href.split('?')[0].includes('results/') === true)?(
+         (window.location.href.split('?')[0].split('results/')[1].split('/')[0].length === 2)?(
+           (window.location.href.split('?')[0].split('results/')[1].split('/')[1])?(
+              `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[1]}` 
+            ):  `/results` ):  `/results/${window.location.href.split('?')[0].split('results/')[1].split('/')[0]}` 
+            ) :  `/results`  ):'/country'));
+ }
+  const handleProfileMenu1Open = (event) => {
+    funcToStore()
+    this.setState({anchorEl1: event.currentTarget})
+  };
+  const handleProfileMenu2Open = (event) => {
+    funcToStore()
+    this.setState({anchorEl2: event.currentTarget})
+  };
+  const handleMenu1Close = () => {
+    this.setState({anchorEl1: null})
+  };
+  const handleMenu2Close = () => {
+    this.setState({anchorEl2: null})
+  };
+
+        const menu1Id = 'categories-menu';
+        const menu2Id = 'countries-menu';
+        const renderMenu1 = (
+          <Menu
+            anchorEl={anchorEl1}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            id={menu1Id}
+            keepMounted
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMenu1Open}
+            onClose={handleMenu1Close}
+            PaperProps={{
+              style: {
+                maxHeight: ITEM_HEIGHT * 8,
+                width: '100%',
+                textAlign:'center',
+                marginTop: '50px'
+              },
+            }}
+          >
+            {categoriesArray.map(category=>(
+              <MenuItem component={Link} href={`${urlToCategory}/${category.id}`} to={{ pathname: `${urlToCategory}/${category.id}`, search: search }} onClick={handleMenu1Close}>{category.id}</MenuItem>
+            ))}
+          </Menu>
+        );
+        const renderMenu2 = (
+          <Menu
+            anchorEl={anchorEl2}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            id={menu2Id}
+            keepMounted
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMenu2Open}
+            onClose={handleMenu2Close}
+            PaperProps={{
+              style: {
+                maxHeight: ITEM_HEIGHT * 8,
+                width: '100%',
+                textAlign:'center',
+                marginTop: '50px'
+              },
+            }}
+          >
+            {countryArray.map(country=>(
+              <MenuItem component={Link} href={`${urlToCountry}/${country.code.toLowerCase()}`} to={{pathname: `${urlToCountry}/${country.code.toLowerCase()}`, search: search }} onClick={handleMenu2Close}>{country.label}</MenuItem>
+            ))}
+          </Menu>
+        );
         return (
           <div className={classes.root}>
             <AppBar className={newClass}>
-                <Toolbar className="nav-container">
-                  <Hidden smUp>
+                <Toolbar className={classes.toolbar}>
+                  {/* <Hidden smUp>
                   <IconButton
                       edge="start"
                       className={classes.menuButton}
@@ -226,7 +360,7 @@ class Navbar extends Component {
                     >
                       <MenuIcon />
                     </IconButton>
-                  </Hidden>
+                  </Hidden> */}
                     <Link aria-label="Link to website homepage" className={classes.navhomelink} href='/' to="/"><h2>NewsFeedXtra</h2></Link>
                     <form className={classes.search} onSubmit={this.submitSearch}>
                         <Link aria-label="Link to search results" id='linktores' to={{ pathname:'/results', search: search, state: {details:{}} }} />
@@ -245,8 +379,67 @@ class Navbar extends Component {
                         inputProps={{ 'aria-label': 'search' }}
                         />
                     </form>
+                    <Hidden xsDown>
+                    <span style={{flexGrow: 1}}></span>
+                    <Button
+                      variant="contained" 
+                      color="primary"
+                      edge="end"
+                      aria-label="news categories"
+                      aria-controls={menu1Id}
+                      aria-haspopup="true"
+                      onClick={handleProfileMenu1Open}
+                      disableElevation
+                    >
+                      Categories
+                    </Button>
+                    <Button
+                      variant="contained" 
+                      color="primary"
+                      edge="end"
+                      aria-label="Covered countries"
+                      aria-controls={menu2Id}
+                      aria-haspopup="true"
+                      onClick={handleProfileMenu2Open}
+                      disableElevation
+                    >
+                      Countries
+                    </Button>
+                    </Hidden>
                 </Toolbar>
+                <Hidden smUp>
+                <Toolbar className={classes.toolbar2}>
+                    <Button
+                      variant="contained" 
+                      color="primary"
+                      edge="end"
+                      aria-label="news categories"
+                      aria-controls={menu1Id}
+                      aria-haspopup="true"
+                      onClick={handleProfileMenu1Open}
+                      disableElevation
+                      className={classes.mobileBtn}
+                    >
+                      Categories
+                    </Button>
+                    <Button
+                      variant="contained" 
+                      color="primary"
+                      edge="end"
+                      aria-label="Covered countries"
+                      aria-controls={menu2Id}
+                      aria-haspopup="true"
+                      onClick={handleProfileMenu2Open}
+                      disableElevation
+                      className={classes.mobileBtn}
+                    >
+                      Countries
+                    </Button>
+                </Toolbar>
+                </Hidden>
             </AppBar>
+            {renderMenu1}
+            {renderMenu2}
         </div>
         )
     }

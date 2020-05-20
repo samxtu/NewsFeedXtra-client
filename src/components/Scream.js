@@ -250,7 +250,7 @@ class Scream extends Component {
               <Typography className={classes.typoDetails} variant="body1">{description?(description):('')}</Typography>
                 <Hidden smDown><br/></Hidden>
             <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-                <Typography className={classes.typoDetails} variant='body2' color='textSecondary' >Some content:</Typography>
+                <Typography className={classes.typoDetails} variant='body2' color='textSecondary' >{content?'Some content:':'No content for preview, click above link to view article from the original source!'}</Typography>
                 <Typography
                 className={classes.typoDetails} paragraph>{content?(content.split('[+')[0]): ('')}</Typography>
             </Collapse>

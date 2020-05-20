@@ -21,7 +21,31 @@ import Button from '@material-ui/core/Button';
 const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI(process.env.REACT_APP_WORLDNEWS_API_KEY);
 var networkDataReceived = false;
-    
+const categoriesArray = [
+    {
+        id: 'general',
+        sources: 'abc-news,al-jazeera-english,associated-press,axios,bbc-news,cbc-news,cbs-news,cnn,fox-news,google-news,google-news-au,google-news-ca,google-news-in,google-news-uk,independent,nbc-news,news24,newsweek,reuters,the-huffington-post'
+    },{
+        id:'business',
+        sources: 'australian-financial-review,bloomberg,business-insider,business-insider-uk,cnbc,financial-post,the-wall-street-journal,fortune'
+    },{
+        id:'entertainment',
+        sources: 'buzzfeed,entertainment-weekly,ign,mashable,mtv-news,mtv-news-uk,polygon,the-lad-bible'
+    },{
+        id:'health',
+        sources:'medical-news-today'
+    },{
+        id:'sports',
+        sources: 'bbc-sport,bleacher-report,espn,espn-cric-info,football-italia,four-four-two,fox-sports,nfl-news,nhl-news,talksport,the-sport-bible'
+    },{
+        id:'science',
+        sources:'national-geographic,new-scientist,next-big-future'
+    },{
+        id:'technology',
+        sources: 'ars-technica,crypto-coins-news,engadget,hacker-news,recode,techcrunch,techradar,the-next-web,the-verge,wired'
+    }
+]
+
 const styles = () => ({
     alert: {
         width: "100%",
@@ -89,8 +113,7 @@ class home extends Component {
     }
     fetchCatOnline = (cat) =>{
         return newsapi.v2.topHeadlines({
-        language: 'en',
-        category: cat,
+        sources: categoriesArray[categoriesArray.findIndex(elem => elem.id === cat)].sources,
         page: this.state.page
         }).then(response => {
             if(response.status === 'ok'){
@@ -127,7 +150,7 @@ class home extends Component {
         const This = this;
         if(This.props.match.params.title){
             caches.open('mysite-dynamic').then((cache)=>{
-                cache.match('https://newsapi.org/v2/top-headlines?language=en&category='+This.props.match.params.title+'&page='+this.state.cachePage,{ignoreMethod:true,ignoreVary:true})
+                cache.match('https://newsapi.org/v2/top-headlines?sources='+categoriesArray[categoriesArray.findIndex(elem => elem.id === This.props.match.params.title)].sources+'&page='+this.state.cachePage,{ignoreMethod:true,ignoreVary:true})
                 .then(function(res) {
                     if (!res) throw Error("No data");
                     return res.json();
@@ -228,8 +251,7 @@ class home extends Component {
         const This = this;
         if(this.state.stateProps.match.params.title) {
             return newsapi.v2.topHeadlines({
-                language: 'en',
-                category: this.state.stateProps.match.params.title,
+                sources: categoriesArray[categoriesArray.findIndex(elem => elem.id === this.state.stateProps.match.params.title)].sources,
                 page: this.state.page
                 }).then(response => {
                     if(response.status === 'ok'){
@@ -251,7 +273,7 @@ class home extends Component {
                 .catch((err)=>{
                     console.log(err)
                     if(this.state.theError === "Offline: Turn on data for latest headlines."){
-                        caches.match('https://newsapi.org/v2/top-headlines?language=en&page='+this.state.cachePage,{ignoreMethod:true,ignoreVary:true})
+                        caches.match('https://newsapi.org/v2/top-headlines?sources='+categoriesArray[categoriesArray.findIndex(elem => elem.id === this.state.stateProps.match.params.title)].sources+'&page='+this.state.cachePage,{ignoreMethod:true,ignoreVary:true})
                         .then(function(res) {
                             if (!res) throw Error("No data");
                             console.log("we got the good stuff")
@@ -400,8 +422,8 @@ class home extends Component {
                 </Grid>
                 <Hidden xsDown>
                     <Grid  item md={2} sm={3} xs={12}>
-                        <Categories category={stateProps.match.params.title?'stateProps.match.params.title':'All'} country='All' urlTo='/top-stories' />
-                        <Countries country='All' category={stateProps.match.params.title?'stateProps.match.params.title':'All'}  urlTo='/country' />
+                        <Categories category={stateProps.match.params.title?stateProps.match.params.title:'All'} country='All' urlTo='/top-stories' />
+                        <Countries country='All' category={stateProps.match.params.title?stateProps.match.params.title:'All'}  urlTo='/country' />
                     </Grid>
                 </Hidden>
             </Grid>
