@@ -2,6 +2,7 @@ import React , { Component, Fragment } from 'react';
 import VizSensor from 'react-visibility-sensor';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import {Helmet} from "react-helmet";
 //mui stuff
 import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
@@ -11,17 +12,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Hidden from '@material-ui/core/Hidden';
 //Components
 import Scream from '../components/Scream';
 import Categories from '../components/Categories';
 import Countries from '../components/Countries';
 import NewsSkeleton from '../components/NewsSkeleton';
-import Hidden from '@material-ui/core/Hidden';
 import countryArray from '../util/consts';
 
-// mui stuff
-const NewsAPI = require('newsapi');
-const newsapi = new NewsAPI(process.env.REACT_APP_WORLDNEWS_API_KEY);
 const gnewsapiproxy = 'https://us-central1-worldnews-bf737.cloudfunctions.net/api';
 const categoriesArray = [
     {
@@ -145,8 +143,8 @@ class country extends Component {
             if(this.props.match.params.title){
                 const This = this;
                 // fetch cached data
-                caches.match(`https://newsapi.org/v2/top-headlines?country=${this.props.match.params.name}&category=${this.props.match.params.title}&page=${this.state.cachePage}`).then(function(res) {
-                    if (!res) throw Error("No data");
+                caches.match(`${gnewsapiproxy}/topheadlines/''/${this.props.match.params.name}/''/${this.props.match.params.title}/''/''/${this.state.cachePage}`).then(function(res) {
+                        if (!res) throw Error("No data");
                     return res.json();
                 }).then(function(response) {
                     // don't overwrite newer network data
@@ -166,7 +164,7 @@ class country extends Component {
                 let cachegets = []
                     categoriesArray.map(cat=>{
                         return cachegets.push(new Promise((resolve,reject)=>{
-                            caches.match('https://newsapi.org/v2/top-headlines?country='+this.props.match.params.name+'&category='+cat.id+'&pageSize=5',{ignoreMethod:true,ignoreVary:true})
+                            caches.match(`${gnewsapiproxy}/topheadlines/''/${this.props.match.params.name}/''/${cat.id}/''/5/''`,{ignoreMethod:true,ignoreVary:true})
                             .then(function(res) {
                                 if (!res) {
                                     console.log('No data')
@@ -251,17 +249,14 @@ class country extends Component {
         if(this.props.match.params.title){
             this.setState({category: this.props.match.params.title})
             if(newsAPI){
-                newsapi.v2.topHeadlines({
-                    country: this.props.match.params.name,
-                    category: this.props.match.params.title,
-                    page: this.state.page
-                  }).then(response => {
-                    if(response.status === 'ok'){
+                axios.get(`${gnewsapiproxy}/topheadlines/''/${this.props.match.params.name}/''/${this.props.match.params.title}/''/''/${this.state.page}`)
+                  .then(response => {
+                    if(response.data.status === 'ok'){
                         this.setState({
                             loading: false,
                             error: false,
                             page: this.state.page+1,
-                            news: response.articles
+                            news: response.data.articles
                         })
                     }  else{
                         this.setState({
@@ -307,17 +302,14 @@ class country extends Component {
         } else {
             if(newsAPI){
                 categoriesArray.map(category =>{
-                    return newsapi.v2.topHeadlines({
-                        country: this.props.match.params.name,
-                        category: category.id,
-                        pageSize: 5
-                        }).then(response => {
-                            if(response.status === 'ok'){
+                    return axios.get(`${gnewsapiproxy}/topheadlines/''/${this.props.match.params.name}/''/${category.id}/''/5/''`)
+                        .then(response => {
+                            if(response.data.status === 'ok'){
                                 networkDataReceived = true;
                                 this.setState({
                                     loading: false,
                                     error: false,
-                                    [category.id]: response.articles
+                                    [category.id]: response.data.articles
                                 })
                             } else{
                                 this.setState({
@@ -376,12 +368,9 @@ class country extends Component {
                 country: nextProps.match.params.name
             })
             if(newsAPI){
-                newsapi.v2.topHeadlines({
-                    country: nextProps.match.params.name,
-                    category: nextProps.match.params.title,
-                    page: this.state.page
-                  }).then(response => {
-                    if(response.status === 'ok'){
+                axios.get(`${gnewsapiproxy}/topheadlines/''/${nextProps.match.params.name}/''/${nextProps.match.params.title}/''/''/${this.state.page}`)
+                  .then(response => {
+                    if(response.data.status === 'ok'){
                         this.setState({
                             loading: false,
                             error: false,
@@ -392,7 +381,7 @@ class country extends Component {
                             science: [],
                             sports: [],
                             technology: [],
-                            news: response.articles,
+                            news: response.data.articles,
                             page: this.state.page + 1
                         })
                     }  else{
@@ -412,8 +401,8 @@ class country extends Component {
                 
                 const This = this;
             // fetch cached data
-            caches.match(`https://newsapi.org/v2/top-headlines?country=${nextProps.match.params.name}&category=${nextProps.match.params.title}&page=${this.state.cachePage}`).then(function(res) {
-                if (!res) throw Error("No data");
+            caches.match(`${gnewsapiproxy}/topheadlines/''/${nextProps.match.params.name}/''/${nextProps.match.params.title}/''/''/${this.state.cachePage}`).then(function(res) {
+                    if (!res) throw Error("No data");
                 return res.json();
             }).then(function(response) {
                 // don't overwrite newer network data
@@ -497,18 +486,15 @@ class country extends Component {
             })
             if(newsAPI){            
                 categoriesArray.map(category =>{
-                    return newsapi.v2.topHeadlines({
-                        country: nextProps.match.params.name,
-                        category: category.id,
-                        pageSize: 5
-                        }).then(response => {
-                            if(response.status === 'ok'){
+                    return axios.get(`${gnewsapiproxy}/topheadlines/''/${nextProps.match.params.name}/''/${category.id}/''/5/''`)
+                        .then(response => {
+                            if(response.data.status === 'ok'){
                                 networkDataReceived = true;
                                 this.setState({
                                     loading: false,
                                     error: false,
                                     news: [],
-                                    [category.id]: response.articles
+                                    [category.id]: response.data.articles
                                 })
                             } else{
                                 this.setState({
@@ -531,7 +517,7 @@ class country extends Component {
             let cachegets = []
             categoriesArray.map(cat=>{
                 return cachegets.push(new Promise((resolve,reject)=>{
-                    caches.match('https://newsapi.org/v2/top-headlines?country='+nextProps.match.params.name+'&category='+cat.id+'&pageSize=5',{ignoreMethod:true,ignoreVary:true})
+                    caches.match(`${gnewsapiproxy}/topheadlines/''/${nextProps.match.params.name}/''/${cat.id}/''/5/''`,{ignoreMethod:true,ignoreVary:true})
                     .then(function(res) {
                         if (!res) {
                             console.log('No data')
@@ -623,18 +609,15 @@ class country extends Component {
         this.setState({moreLoading: true})
         const This = this;
         if(newsAPI){
-            return newsapi.v2.topHeadlines({
-            country: this.state.country,
-            category: this.state.category,
-            page: this.state.page
-            }).then(response => {
-                if(response.status === 'ok'){
+            return axios.get(`${gnewsapiproxy}/topheadlines/''/${this.state.country}/''/${this.state.category}/''/''/${this.state.page}`)
+            .then(response => {
+                if(response.data.status === 'ok'){
                     networkDataReceived = true;
                     this.setState({
                         moreLoading: false,
                         error: false,
                         page: this.state.page+1,
-                        news: this.state.news.concat(response.articles)
+                        news: this.state.news.concat(response.data.articles)
                     })
                 } else{
                     this.setState({
@@ -647,7 +630,7 @@ class country extends Component {
             .catch((err)=>{
                 console.log(err)
                 if(this.state.theError === "Offline: Turn on data for latest headlines."){
-                    caches.match('https://newsapi.org/v2/top-headlines?country='+this.state.country+'&category='+this.state.category+'&page='+this.state.cachePage,{ignoreMethod:true,ignoreVary:true})
+                    caches.match(`${gnewsapiproxy}/topheadlines/''/${this.state.country}/''/${this.state.category}/''/''/${this.state.cachePage}`,{ignoreMethod:true,ignoreVary:true})
                     .then(function(res) {
                         if (!res) throw Error("No data");
                         console.log("we got the good stuff")
@@ -806,6 +789,13 @@ class country extends Component {
 
         return (
             <Grid container spacing={2}>
+            <Helmet>
+                <meta
+                name="description"
+                content={`Trending ${category==='All'?'':category} news headlines in ${country}`}
+                />
+                <title>NewsFeedXtra {country?'| '+country:''} {category==='All'?'':'| '+category}</title>
+            </Helmet>
                 {fetchError}
                 <Hidden smDown>
                 <Grid item md={2}>

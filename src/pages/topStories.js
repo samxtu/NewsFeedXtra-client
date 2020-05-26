@@ -1,4 +1,8 @@
 import React , { Component, Fragment } from 'react';
+import {Helmet} from "react-helmet";
+import axios from 'axios';
+import {Link} from 'react-router-dom';
+// mui stuff
 import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
 import withSyles from '@material-ui/core/styles/withStyles';
@@ -6,21 +10,18 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import MuiLink from '@material-ui/core/Link';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import {Link} from 'react-router-dom';
+import Hidden from '@material-ui/core/Hidden';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
 //Components
 import Scream from '../components/Scream';
 import Categories from '../components/Categories';
 import Countries from '../components/Countries';
 import NewsSkeleton from '../components/NewsSkeleton';
-import Hidden from '@material-ui/core/Hidden';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
 
-// mui stuff
-const NewsAPI = require('newsapi');
-const newsapi = new NewsAPI(process.env.REACT_APP_WORLDNEWS_API_KEY);
 var networkDataReceived = false;
+const gnewsapiproxy = 'https://us-central1-worldnews-bf737.cloudfunctions.net/api';
 const categoriesArray = [
     {
         id: 'general',
@@ -84,17 +85,15 @@ class home extends Component {
     }
     
     fetchOnline = () =>{
-        return newsapi.v2.topHeadlines({
-        language: 'en',
-        page: this.state.page
-        }).then(response => {
-            if(response.status === 'ok'){
+        return axios.get(`${gnewsapiproxy}/topheadlines/en/''/''/''/''/''/${this.state.page}`)
+        .then(response => {
+            if(response.data.status === 'ok'){
                 networkDataReceived = true;
                 this.setState({
                     loading: false,
                     error: false,
                     page: this.state.page+1,
-                    news: response.articles
+                    news: response.data.articles
                 })
             } else{
                 this.setState({
@@ -111,18 +110,17 @@ class home extends Component {
             })
         });
     }
+
     fetchCatOnline = (cat) =>{
-        return newsapi.v2.topHeadlines({
-        sources: categoriesArray[categoriesArray.findIndex(elem => elem.id === cat)].sources,
-        page: this.state.page
-        }).then(response => {
-            if(response.status === 'ok'){
+        return axios.get(`${gnewsapiproxy}/topheadlines/''/''/${categoriesArray[categoriesArray.findIndex(elem => elem.id === cat)].sources}/''/''/''/${this.state.page}`)
+        .then(response => {
+            if(response.data.status === 'ok'){
                 networkDataReceived = true;
                 this.setState({
                     loading: false,
                     error: false,
                     page: this.state.page+1,
-                    news: response.articles
+                    news: response.data.articles
                 })
             } else{
                 this.setState({
@@ -139,6 +137,7 @@ class home extends Component {
             })
         });
     }
+
     UNSAFE_componentWillMount(){
         this.setState({
             news: [],
@@ -150,7 +149,7 @@ class home extends Component {
         const This = this;
         if(This.props.match.params.title){
             caches.open('mysite-dynamic').then((cache)=>{
-                cache.match('https://newsapi.org/v2/top-headlines?sources='+categoriesArray[categoriesArray.findIndex(elem => elem.id === This.props.match.params.title)].sources+'&page='+this.state.cachePage,{ignoreMethod:true,ignoreVary:true})
+                cache.match(`${gnewsapiproxy}/topheadlines/''/''/${categoriesArray[categoriesArray.findIndex(elem => elem.id === This.props.match.params.title)].sources}/''/''/''/${this.state.cachePage}`,{ignoreMethod:true,ignoreVary:true})
                 .then(function(res) {
                     if (!res) throw Error("No data");
                     return res.json();
@@ -177,7 +176,7 @@ class home extends Component {
             })
         } else{
             caches.open('mysite-dynamic').then((cache)=>{
-                cache.match('https://newsapi.org/v2/top-headlines?language=en&page='+this.state.cachePage,{ignoreMethod:true,ignoreVary:true})
+                cache.match(`${gnewsapiproxy}/topheadlines/en/''/''/''/''/''/${this.state.cachePage}`,{ignoreMethod:true,ignoreVary:true})
                 .then(function(res) {
                     if (!res) throw Error("No data");
                     return res.json();
@@ -250,17 +249,15 @@ class home extends Component {
         this.setState({moreLoading: true})
         const This = this;
         if(this.state.stateProps.match.params.title) {
-            return newsapi.v2.topHeadlines({
-                sources: categoriesArray[categoriesArray.findIndex(elem => elem.id === this.state.stateProps.match.params.title)].sources,
-                page: this.state.page
-                }).then(response => {
-                    if(response.status === 'ok'){
+            return axios.get(`${gnewsapiproxy}/topheadlines/''/''/${categoriesArray[categoriesArray.findIndex(elem => elem.id === this.state.stateProps.match.params.title)].sources}/''/''/''/${this.state.page}`)
+                .then(response => {
+                    if(response.data.status === 'ok'){
                         networkDataReceived = true;
                         this.setState({
                             moreLoading: false,
                             error: false,
                             page: this.state.page+1,
-                            news: this.state.news.concat(response.articles)
+                            news: this.state.news.concat(response.data.articles)
                         })
                     } else{
                         this.setState({
@@ -273,7 +270,7 @@ class home extends Component {
                 .catch((err)=>{
                     console.log(err)
                     if(this.state.theError === "Offline: Turn on data for latest headlines."){
-                        caches.match('https://newsapi.org/v2/top-headlines?sources='+categoriesArray[categoriesArray.findIndex(elem => elem.id === this.state.stateProps.match.params.title)].sources+'&page='+this.state.cachePage,{ignoreMethod:true,ignoreVary:true})
+                        caches.match(`${gnewsapiproxy}/topheadlines/''/''/${categoriesArray[categoriesArray.findIndex(elem => elem.id === this.state.stateProps.match.params.title)].sources}/''/''/''/${this.state.cachePage}`,{ignoreMethod:true,ignoreVary:true})
                         .then(function(res) {
                             if (!res) throw Error("No data");
                             console.log("we got the good stuff")
@@ -305,17 +302,15 @@ class home extends Component {
                     }
                 });
         } else {
-            return newsapi.v2.topHeadlines({
-                language: 'en',
-                page: this.state.page
-                }).then(response => {
-                    if(response.status === 'ok'){
+            return axios.get(`${gnewsapiproxy}/topheadlines/en/''/''/''/''/''/${this.state.page}`)
+                .then(response => {
+                    if(response.data.status === 'ok'){
                         networkDataReceived = true;
                         this.setState({
                             moreLoading: false,
                             error: false,
                             page: this.state.page+1,
-                            news: this.state.news.concat(response.articles)
+                            news: this.state.news.concat(response.data.articles)
                         })
                     } else{
                         this.setState({
@@ -328,7 +323,7 @@ class home extends Component {
                 .catch((err)=>{
                     console.log(err)
                     if(this.state.theError === "Offline: Turn on data for latest headlines."){
-                        caches.match('https://newsapi.org/v2/top-headlines?language=en&page='+this.state.cachePage,{ignoreMethod:true,ignoreVary:true})
+                        caches.match(`${gnewsapiproxy}/topheadlines/en/''/''/''/''/''/${this.state.cachePage}`,{ignoreMethod:true,ignoreVary:true})
                         .then(function(res) {
                             if (!res) throw Error("No data");
                             console.log("we got the good stuff")
@@ -362,6 +357,7 @@ class home extends Component {
         }
 
     }
+
     render (){
         const {classes} = this.props;
         const { loading, news, error, theError, moreLoading, param1Name, param2Name, linkToParam1, stateProps } = this.state;
@@ -401,6 +397,13 @@ class home extends Component {
         }):(<NewsSkeleton />)
         return (
             <Grid container spacing={1}>
+            <Helmet>
+                <meta
+                name="description"
+                content={`Trending ${stateProps.match.params.title?stateProps.match.params.title:'world'} news headlines from sources around the world`}
+                />
+                <title>NewsFeedXtra | {stateProps.match.params.title?stateProps.match.params.title:'world'}</title>
+            </Helmet>
                 {fetchError}
                 <Hidden smDown>
                 <Grid item md={2}>

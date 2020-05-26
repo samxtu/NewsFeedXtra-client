@@ -82,7 +82,7 @@ function App() {
   // const [straight, setState] = React.useState(false);
   const myCountry = localStorage.myCountry;
   if(!myCountry || myCountry === 'undefined'){
-    fetch(`http://api.ipstack.com/check?access_key=${process.env.REACT_APP_IPSTACK_API_KEY}`)
+    fetch(`https://ipapi.co/json`)
     .then(res =>{
      res.json().then(data=>{
       localStorage.setItem('myCountry',data.country_code)

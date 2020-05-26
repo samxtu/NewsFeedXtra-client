@@ -1,0 +1,4 @@
+{
+        "topheadlines": "axios.get(`${gnewsapiproxy}/topheadlines/language/country/sources/category/q/pageSize/page`)",
+        "everything": "axios.get(`${gnewsapiproxy}/everything/language/q/qintitle/sortby/pageSize/page`)"
+}

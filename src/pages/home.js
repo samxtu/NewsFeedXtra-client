@@ -16,8 +16,6 @@ import Alert from '@material-ui/lab/Alert';
 import withSyles from '@material-ui/core/styles/withStyles';
 
 import countryArray from '../util/consts';
-const NewsAPI = require('newsapi');
-const newsapi = new NewsAPI(process.env.REACT_APP_WORLDNEWS_API_KEY);
 const gnewsapiproxy = 'https://us-central1-worldnews-bf737.cloudfunctions.net/api';
 var networkDataReceived = false;
 var countryCovered = false;
@@ -133,16 +131,14 @@ class home extends Component {
     }
     
     fetchOnline = () =>{
-        return newsapi.v2.topHeadlines({
-        sources: 'abc-news,al-jazeera-english,bbc-news,bleacher-report,bloomberg,business-insider,cbc-news,cbs-news,cnn,espn,the-huffington-post,fox-news,google-news,independent,the-washington-post,mtv-news,national-geographic,nbc-news,news24,new-york-magazine',
-        pageSize: 5
-        }).then(response => {
-            if(response.status === 'ok'){
+        return axios.get(`${gnewsapiproxy}/topheadlines/''/''/'abc-news,al-jazeera-english,bbc-news,bleacher-report,bloomberg,business-insider,cbc-news,cbs-news,cnn,espn,the-huffington-post,fox-news,google-news,independent,the-washington-post,mtv-news,national-geographic,nbc-news,news24,new-york-magazine'/''/''/5/''`)
+        .then(response => {
+            if(response.data.status === 'ok'){
                 networkDataReceived = true;
                 this.setState({
                     loading: false,
                     error: false,
-                    news: response.articles
+                    news: response.data.articles
                 })
             } else{
                 this.setState({
@@ -150,6 +146,7 @@ class home extends Component {
                     theError: "Sorry! Problem loading new headlines!"
                 })
             }
+            return true;
         })
         .catch((err)=>{
             console.log(err)
@@ -162,16 +159,14 @@ class home extends Component {
 
     fetchCountryOnline = () =>{
         if(countryArray.filter(country => Boolean(country.code === this.state.myCountry) && Boolean(country.api === 'newsAPI'))[0]){
-            return newsapi.v2.topHeadlines({
-                country: this.state.myCountry.toLowerCase(),
-                pageSize: 5
-                }).then(response => {
-                    if(response.status === 'ok'){
+            return axios.get(`${gnewsapiproxy}/topheadlines/''/${this.state.myCountry.toLowerCase()}/''/''/''/5/''`)
+                .then(response => {
+                    if(response.data.status === 'ok'){
                         networkDataReceived = true;
                         this.setState({
                             loading: false,
                             error: false,
-                            countryNews: response.articles
+                            countryNews: response.data.articles
                         })
                     } else{
                         this.setState({
@@ -179,6 +174,7 @@ class home extends Component {
                             theError: "Sorry! Problem loading new headlines!"
                         })
                     }
+                    return true;
                 })
                 .catch((err)=>{
                     console.log(err)
@@ -221,7 +217,7 @@ class home extends Component {
                const This = this;
                caches.open('mysite-dynamic').then((cache)=>{
                 if(countryArray.filter(country => Boolean(country.code === this.state.myCountry) && Boolean(country.api === 'newsAPI'))[0]){
-                    cache.match('https://newsapi.org/v2/top-headlines?country='+this.state.myCountry.toLowerCase()+'&pageSize=5',{ignoreMethod:true,ignoreVary:true})
+                    cache.match(`${gnewsapiproxy}/topheadlines/''/${this.state.myCountry.toLowerCase()}/''/''/''/5/''`,{ignoreMethod:true,ignoreVary:true})
                     .then(function(res) {
                         if (!res) throw Error("No data");
                         return res.json();
@@ -240,7 +236,7 @@ class home extends Component {
                     })
                 }
                 if(countryCovered && (countryArray.filter(country => Boolean(country.code === this.state.myCountry) && Boolean(country.api === 'gnews'))[0])){
-                    cache.match('https://us-central1-worldnews-bf737.cloudfunctions.net/api/topic/nation/'+this.state.myCountry.toLowerCase()+'/5',{ignoreMethod:true,ignoreVary:true})
+                    cache.match(gnewsapiproxy+'/topic/nation/'+this.state.myCountry.toLowerCase()+'/5',{ignoreMethod:true,ignoreVary:true})
                     .then(function(res) {
                         if (!res) throw Error("No data");
                         return res.json();
@@ -258,8 +254,7 @@ class home extends Component {
                         return console.log(err)
                     })
                 }
-
-                cache.match('https://newsapi.org/v2/top-headlines?sources=abc-news,al-jazeera-english,bbc-news,bleacher-report,bloomberg,business-insider,cbc-news,cbs-news,cnn,espn,the-huffington-post,fox-news,google-news,independent,the-washington-post,mtv-news,national-geographic,nbc-news,news24,new-york-magazine&pageSize=5',{ignoreMethod:true,ignoreVary:true})
+                cache.match(gnewsapiproxy+"/topheadlines/''/''/'abc-news,al-jazeera-english,bbc-news,bleacher-report,bloomberg,business-insider,cbc-news,cbs-news,cnn,espn,the-huffington-post,fox-news,google-news,independent,the-washington-post,mtv-news,national-geographic,nbc-news,news24,new-york-magazine'/''/''/5/''",{ignoreMethod:true,ignoreVary:true})
                 .then(function(res) {
                     if (!res) throw Error("No data");
                     return res.json();
@@ -279,7 +274,7 @@ class home extends Component {
                 let cachegets = []
                 categoriesArray.map(cat=>{
                     return cachegets.push(new Promise((resolve,reject)=>{
-                        cache.match('https://newsapi.org/v2/top-headlines?sorces='+cat.sources+'&pageSize=5',{ignoreMethod:true,ignoreVary:true})
+                        cache.match(`${gnewsapiproxy}/topheadlines/''/''/${cat.sources}/''/''/5/''`,{ignoreMethod:true,ignoreVary:true})
                         .then(function(res) {
                             if (!res) {
                                 console.log('No data')
@@ -311,21 +306,20 @@ class home extends Component {
                 })
             })
     }
+
     componentDidMount(){
         window.scrollTo(0, 0)
         if(this.state.myCountry && countryCovered) this.fetchCountryOnline();
         this.fetchOnline();
-        categoriesArray.map(category =>{
-            return newsapi.v2.topHeadlines({
-                sources: category.sources,
-                pageSize: 5
-                }).then(response => {
-                    if(response.status === 'ok'){
+        let catar = categoriesArray.map(category =>{
+            return axios.get(`${gnewsapiproxy}/topheadlines/''/''/${category.sources}/''/''/5/''`)
+                .then(response => {
+                    if(response.data.status === 'ok'){
                         networkDataReceived = true;
                         this.setState({
                             loading: false,
                             error: false,
-                            [category.id]: response.articles
+                            [category.id]: response.data.articles
                         })
                     } else{
                         this.setState({
@@ -333,6 +327,7 @@ class home extends Component {
                             theError: "Sorry! Problem loading new headlines!"
                         })
                     }
+                    return true;
                 })
                 .catch((err)=>{
                     console.log(err)
@@ -341,6 +336,9 @@ class home extends Component {
                         theError: "Offline: Turn on data for latest headlines."
                     })
                 });
+        })
+        Promise.all(catar).then(()=>{
+            this.setState({ error: false })
         })
     }
 

@@ -1,4 +1,5 @@
 import React , { Component } from 'react';
+import axios from 'axios';
 //Components
 import Scream from '../components/Scream';
 import Categories from '../components/Categories';
@@ -14,7 +15,7 @@ import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 
 //newsapi
-const NewsAPI = require('newsapi');
+const gnewsapiproxy = 'https://us-central1-worldnews-bf737.cloudfunctions.net/api';
 const styles = theme => ({
     ...theme.common,
     container:{
@@ -47,24 +48,18 @@ class results extends Component {
     }
     
     componentDidMount(){
-        console.log('results did mount')
             this.setState({
                 search: this.props.location.search.split('?')[1],
                 props: this.props
             })
-            const newsapi = new NewsAPI(process.env.REACT_APP_WORLDNEWS_API_KEY);
             if(!this.props.match.params.param1){
-                newsapi.v2.everything({
-                    qInTitle: this.props.location.search.split('?')[1],
-                    sortBy:'publishedAt',
-                    language: 'en',
-                    pageSize: 50
-                  }).then(response => {
-                    if(response.status === 'ok'){
+                axios.get(`${gnewsapiproxy}/everything/en/''/${this.props.location.search.split('?')[1]}/publishedAt/50/''`)
+                  .then(response => {
+                    if(response.data.status === 'ok'){
                         this.setState({
                             loading: false,
-                            news: response.articles,
-                            totalResults: response.totalResults
+                            news: response.data.articles,
+                            totalResults: response.data.totalResults
                         })
                     } 
                 })
@@ -74,20 +69,13 @@ class results extends Component {
             }
             else if(this.props.match.params.param1 && this.props.match.params.param1.length ===2){
                 if(this.props.match.params.param2 && this.props.match.params.param2.length > 2){
-                    newsapi.v2.topHeadlines({
-                        qInTitle: this.props.location.search.split('?')[1],
-                        sortBy:'publishedAt',
-                        language: 'en',
-                        country: this.props.match.params.param1,
-                        category: this.props.match.params.param2,
-                        pageSize: 50
-                      }).then(response => {
-                        if(response.status === 'ok'){
-                            console.log(response.totalResults)
+                    axios.get(`${gnewsapiproxy}/topheadlines/en/${this.props.match.params.param1}/''/${this.props.match.params.param2}/${this.props.location.search.split('?')[1]}/50/''`)
+                      .then(response => {
+                        if(response.data.status === 'ok'){
                             this.setState({
                                 loading: false,
-                                news: response.articles,
-                                totalResults: response.totalResults
+                                news: response.data.articles,
+                                totalResults: response.data.totalResults
                             })
                         } 
                     })
@@ -101,19 +89,13 @@ class results extends Component {
                         country: this.props.match.params.param1
                     })
                 } else{
-                    newsapi.v2.topHeadlines({
-                        qInTitle: this.props.location.search.split('?')[1],
-                        sortBy:'publishedAt',
-                        language: 'en',
-                        country: this.props.match.params.param1,
-                        pageSize: 50
-                      }).then(response => {
-                        if(response.status === 'ok'){
-                            console.log(response.totalResults)
+                    axios.get(`${gnewsapiproxy}/topheadlines/en/${this.props.match.params.param1}/''/''/${this.props.location.search.split('?')[1]}/50/''`)
+                      .then(response => {
+                        if(response.data.status === 'ok'){
                             this.setState({
                                 loading: false,
-                                news: response.articles,
-                                totalResults: response.totalResults
+                                news: response.data.articles,
+                                totalResults: response.data.totalResults
                             })
                         } 
                     })
@@ -127,20 +109,13 @@ class results extends Component {
                 }
             } else if(this.props.match.params.param1 && this.props.match.params.param1.length > 2){
                 if(this.props.match.params.param2 && this.props.match.params.param2.length ===2){
-                    newsapi.v2.topHeadlines({
-                        qInTitle: this.props.location.search.split('?')[1],
-                        sortBy:'publishedAt',
-                        language: 'en',
-                        country: this.props.match.params.param2,
-                        category: this.props.match.params.param1,
-                        pageSize: 50
-                      }).then(response => {
-                        if(response.status === 'ok'){
-                            console.log(response.totalResults)
+                    axios.get(`${gnewsapiproxy}/topheadlines/en/${this.props.match.params.param2}/''/${this.props.match.params.param1}/${this.props.location.search.split('?')[1]}/50/''`)
+                      .then(response => {
+                        if(response.data.status === 'ok'){
                             this.setState({
                                 loading: false,
-                                news: response.articles,
-                                totalResults: response.totalResults
+                                news: response.data.articles,
+                                totalResults: response.data.totalResults
                             })
                         } 
                     })
@@ -154,19 +129,13 @@ class results extends Component {
                         country: this.props.match.params.param2
                     })
                 } else {
-                    newsapi.v2.topHeadlines({
-                        qInTitle: this.props.location.search.split('?')[1],
-                        sortBy:'publishedAt',
-                        language: 'en',
-                        category: this.props.match.params.param1,
-                        pageSize: 50
-                      }).then(response => {
-                        if(response.status === 'ok'){
-                            console.log(response.totalResults)
+                    axios.get(`${gnewsapiproxy}/topheadlines/en/''/''/${this.props.match.params.param1}/''/50/''`)
+                      .then(response => {
+                        if(response.data.status === 'ok'){
                             this.setState({
                                 loading: false,
-                                news: response.articles,
-                                totalResults: response.totalResults
+                                news: response.data.articles,
+                                totalResults: response.data.totalResults
                             })
                         } 
                     })
@@ -182,7 +151,6 @@ class results extends Component {
     }
     
     UNSAFE_componentWillReceiveProps(nextProps){
-        const newsApi = new NewsAPI(process.env.REACT_APP_WORLDNEWS_API_KEY);
         if(this.state.props.match.params.param1 !== nextProps.match.params.param1 
             || this.state.props.match.params.param2 !== nextProps.match.params.param2 
             || this.state.props.location.search !== nextProps.location.search){
@@ -193,19 +161,14 @@ class results extends Component {
                     search: nextProps.location.search.split('?')[1]
                 })
             if(!nextProps.match.params.param1){
-                newsApi.v2.everything({
-                    qInTitle: nextProps.location.search.split('?')[1],
-                    sortBy:'publishedAt',
-                    language: 'en',
-                    pageSize: 50
-                  }).then(response => {
-                    if(response.status === 'ok'){
-                        console.log(response.totalResults)
+                axios.get(`${gnewsapiproxy}/everything/en/''/${nextProps.location.search.split('?')[1]}/publishedAt/50/''`)
+                  .then(response => {
+                    if(response.data.status === 'ok'){
                         this.setState({
                             loading: false,
                             error: false,
-                            news: response.articles,
-                            totalResults: response.totalResults
+                            news: response.data.articles,
+                            totalResults: response.data.totalResults
                         })
                     } 
                 })
@@ -221,21 +184,14 @@ class results extends Component {
             }
             else if(nextProps.match.params.param1 && nextProps.match.params.param1.length ===2){
                 if(nextProps.match.params.param2 && nextProps.match.params.param2.length > 2){
-                    newsApi.v2.topHeadlines({
-                        qInTitle: nextProps.location.search.split('?')[1],
-                        sortBy:'publishedAt',
-                        language: 'en',
-                        country: nextProps.match.params.param1,
-                        category: nextProps.match.params.param2,
-                        pageSize: 50
-                      }).then(response => {
-                        if(response.status === 'ok'){
-                            console.log(response.totalResults)
+                    axios.get(`${gnewsapiproxy}/topheadlines/en/${nextProps.match.params.param1}/''/${nextProps.match.params.param2}/${nextProps.location.search.split('?')[1]}/50/''`)
+                      .then(response => {
+                        if(response.data.status === 'ok'){
                             this.setState({
                                 loading: false,
                                 error: false,
-                                news: response.articles,
-                                totalResults: response.totalResults
+                                news: response.data.articles,
+                                totalResults: response.data.totalResults
                             })
                         } 
                     })
@@ -249,20 +205,14 @@ class results extends Component {
                         country: nextProps.match.params.param1
                     })
                 } else{
-                    newsApi.v2.topHeadlines({
-                        qInTitle: nextProps.location.search.split('?')[1],
-                        sortBy:'publishedAt',
-                        language: 'en',
-                        country: nextProps.match.params.param1,
-                        pageSize: 50
-                      }).then(response => {
-                        if(response.status === 'ok'){
-                            console.log(response.totalResults)
+                    axios.get(`${gnewsapiproxy}/topheadlines/en/${nextProps.match.params.param1}/''/''/${nextProps.location.search.split('?')[1]}/50/''`)
+                      .then(response => {
+                        if(response.data.status === 'ok'){
                             this.setState({
                                 loading: false,
                                 error: false,
-                                news: response.articles,
-                                totalResults: response.totalResults
+                                news: response.data.articles,
+                                totalResults: response.data.totalResults
                             })
                         } 
                     })
@@ -278,20 +228,14 @@ class results extends Component {
                 }
             } else if(nextProps.match.params.param1 && nextProps.match.params.param1.length > 2){
                 if(nextProps.match.params.param2 && nextProps.match.params.param2.length ===2){
-                    newsApi.v2.topHeadlines({
-                        qInTitle: nextProps.location.search.split('?')[1],
-                        sortBy:'publishedAt',
-                        country: nextProps.match.params.param2,
-                        category: nextProps.match.params.param1,
-                        pageSize: 50
-                      }).then(response => {
-                        if(response.status === 'ok'){
-                            console.log(response.totalResults)
+                    axios.get(`${gnewsapiproxy}/topheadlines/''/${nextProps.match.params.param2}/''/${nextProps.match.params.param1}/${nextProps.location.search.split('?')[1]}/50/''`)
+                      .then(response => {
+                        if(response.data.status === 'ok'){
                             this.setState({
                                 loading: false,
                                 error: false,
-                                news: response.articles,
-                                totalResults: response.totalResults
+                                news: response.data.articles,
+                                totalResults: response.data.totalResults
                             })
                         } 
                     })
@@ -305,20 +249,14 @@ class results extends Component {
                         country: nextProps.match.params.param2
                     })
                 } else {
-                    newsApi.v2.topHeadlines({
-                        qInTitle: nextProps.location.search.split('?')[1],
-                        sortBy:'publishedAt',
-                        language: 'en',
-                        category: nextProps.match.params.param1,
-                        pageSize: 50
-                      }).then(response => {
-                        if(response.status === 'ok'){
-                            console.log(response.totalResults)
+                    axios.get(`${gnewsapiproxy}/topheadlines/en/''/''/${nextProps.match.params.param1}/${nextProps.location.search.split('?')[1]}/50/''`)
+                      .then(response => {
+                        if(response.data.status === 'ok'){
                             this.setState({
                                 loading: false,
                                 error: false,
-                                news: response.articles,
-                                totalResults: response.totalResults
+                                news: response.data.articles,
+                                totalResults: response.data.totalResults
                             })
                         } 
                     })

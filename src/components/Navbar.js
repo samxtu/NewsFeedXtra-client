@@ -319,7 +319,7 @@ class Navbar extends Component {
             }}
           >
             {categoriesArray.map(category=>(
-              <MenuItem component={Link} href={`${urlToCategory}/${category.id}`} to={{ pathname: `${urlToCategory}/${category.id}`, search: search }} onClick={handleMenu1Close}>{category.id}</MenuItem>
+              <MenuItem key={category.id} component={Link} href={`${urlToCategory}/${category.id}`} to={{ pathname: `${urlToCategory}/${category.id}`, search: search }} onClick={handleMenu1Close}>{category.id}</MenuItem>
             ))}
           </Menu>
         );
@@ -342,7 +342,7 @@ class Navbar extends Component {
             }}
           >
             {countryArray.map(country=>(
-              <MenuItem component={Link} href={`${urlToCountry}/${country.code.toLowerCase()}`} to={{pathname: `${urlToCountry}/${country.code.toLowerCase()}`, search: search }} onClick={handleMenu2Close}>{country.label}</MenuItem>
+              <MenuItem key={country.code+country.label} component={Link} href={`${urlToCountry}/${country.code.toLowerCase()}`} to={{pathname: `${urlToCountry}/${country.code.toLowerCase()}`, search: search }} onClick={handleMenu2Close}>{country.label}</MenuItem>
             ))}
           </Menu>
         );
