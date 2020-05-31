@@ -5,6 +5,7 @@ import withSyles from '@material-ui/core/styles/withStyles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import noImg from '../images/no-image.jpg';
 
@@ -68,20 +69,20 @@ const styles = theme => ({
         padding: '0 0px 5px 2px',
         margin: '10px 0px 5px 2px',
         height: 2,
-        backgroundColor: 'rgba(0, 0, 0, 0.54)',
+        backgroundColor: '#2D283E' ,
         width: '50%'
     },
     datediv2: {
         margin: '20px 0px 20px 2px',
         height: 9,
-        backgroundColor: 'rgba(0, 0, 0, 0.54)',
+        backgroundColor: '#2D283E' ,
         width: '80%'
     },
     desdiv: {
         height: 40,
         padding: '0 0px 20px 2px',
         margin: '10px 0px 0px 2px',
-        backgroundColor: 'rgba(0, 0, 0, 0.54)',
+        backgroundColor: '#2D283E' ,
         width: '100%'
     }
 })
@@ -99,14 +100,10 @@ export class NewsSkeleton extends Component {
                         title={"Profile"}
                         />
                         <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
+                        <Skeleton className={classes.topdiv} color="primary" />
+                        <Skeleton color="textSecondary" className={classes.datediv}/>
+                        <Skeleton color='textSecondary' className={classes.desdiv}/><br/>
+                        <Skeleton color='primary' className={classes.datediv2}/>
                         </CardContent>
                     </Card>
                     <Card className={classes.card}>
@@ -116,14 +113,10 @@ export class NewsSkeleton extends Component {
                         title={"Profile"}
                         />
                         <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
+                        <Skeleton className={classes.topdiv} color="primary" />
+                        <Skeleton color="textSecondary" className={classes.datediv}/>
+                        <Skeleton color='textSecondary' className={classes.desdiv}/><br/>
+                        <Skeleton color='primary' className={classes.datediv2}/>
                         </CardContent>
                     </Card>
                     <Card className={classes.card}>
@@ -133,14 +126,10 @@ export class NewsSkeleton extends Component {
                         title={"Profile"}
                         />
                         <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
+                        <Skeleton className={classes.topdiv} color="primary" />
+                        <Skeleton color="textSecondary" className={classes.datediv}/>
+                        <Skeleton color='textSecondary' className={classes.desdiv}/><br/>
+                        <Skeleton color='primary' className={classes.datediv2}/>
                         </CardContent>
                     </Card>
                     <Card className={classes.card}>
@@ -150,14 +139,10 @@ export class NewsSkeleton extends Component {
                         title={"Profile"}
                         />
                         <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
+                        <Skeleton className={classes.topdiv} color="primary" />
+                        <Skeleton color="textSecondary" className={classes.datediv}/>
+                        <Skeleton color='textSecondary' className={classes.desdiv}/><br/>
+                        <Skeleton color='primary' className={classes.datediv2}/>
                         </CardContent>
                     </Card>
                     <Card className={classes.card}>
@@ -167,14 +152,10 @@ export class NewsSkeleton extends Component {
                         title={"Profile"}
                         />
                         <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
+                        <Skeleton className={classes.topdiv} color="primary" />
+                        <Skeleton color="textSecondary" className={classes.datediv}/>
+                        <Skeleton color='textSecondary' className={classes.desdiv}/><br/>
+                        <Skeleton color='primary' className={classes.datediv2}/>
                         </CardContent>
                     </Card>
                     <Card className={classes.card}>
@@ -184,14 +165,10 @@ export class NewsSkeleton extends Component {
                         title={"Profile"}
                         />
                         <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
+                        <Skeleton className={classes.topdiv} color="primary" />
+                        <Skeleton color="textSecondary" className={classes.datediv}/>
+                        <Skeleton color='textSecondary' className={classes.desdiv}/><br/>
+                        <Skeleton color='primary' className={classes.datediv2}/>
                         </CardContent>
                     </Card>
                     <Card className={classes.card}>
@@ -201,14 +178,10 @@ export class NewsSkeleton extends Component {
                         title={"Profile"}
                         />
                         <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
+                        <Skeleton className={classes.topdiv} color="primary" />
+                        <Skeleton color="textSecondary" className={classes.datediv}/>
+                        <Skeleton color='textSecondary' className={classes.desdiv}/><br/>
+                        <Skeleton color='primary' className={classes.datediv2}/>
                         </CardContent>
                     </Card>
                     <Card className={classes.card}>
@@ -218,14 +191,10 @@ export class NewsSkeleton extends Component {
                         title={"Profile"}
                         />
                         <CardContent className={classes.content}>
-                        <div
-                            className={classes.topdiv}
-                            color="primary"
-                        >
-                        </div>
-                        <div color="textSecondary" className={classes.datediv}></div>
-                        <div color='textSecondary' className={classes.desdiv}></div><br/>
-                        <div color='primary' className={classes.datediv2}></div>
+                        <Skeleton className={classes.topdiv} color="primary" />
+                        <Skeleton color="textSecondary" className={classes.datediv}/>
+                        <Skeleton color='textSecondary' className={classes.desdiv}/><br/>
+                        <Skeleton color='primary' className={classes.datediv2}/>
                         </CardContent>
                     </Card>
             </Fragment>

@@ -1,5 +1,7 @@
-import React , { Component } from 'react';
+import React , { Component, Fragment } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import countryArray from '../util/consts';
 //Components
 import Scream from '../components/Scream';
 import Categories from '../components/Categories';
@@ -13,9 +15,15 @@ import Typography  from '@material-ui/core/Typography';
 import withSyles from '@material-ui/core/styles/withStyles';
 import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
 //newsapi
 const gnewsapiproxy = 'https://us-central1-worldnews-bf737.cloudfunctions.net/api';
+
+const ITEM_HEIGHT = 48;
 const styles = theme => ({
     ...theme.common,
     container:{
@@ -31,6 +39,31 @@ const styles = theme => ({
     }
 })
 
+const categoriesArray = [
+    {
+        id: 'general',
+        sources: 'abc-news,al-jazeera-english,associated-press,axios,bbc-news,cbc-news,cbs-news,cnn,fox-news,google-news,google-news-au,google-news-ca,google-news-in,google-news-uk,independent,nbc-news,news24,newsweek,reuters,the-huffington-post'
+    },{
+        id:'business',
+        sources: 'australian-financial-review,bloomberg,business-insider,business-insider-uk,cnbc,financial-post,the-wall-street-journal,fortune'
+    },{
+        id:'entertainment',
+        sources: 'buzzfeed,entertainment-weekly,ign,mashable,mtv-news,mtv-news-uk,polygon,the-lad-bible'
+    },{
+        id:'health',
+        sources:'medical-news-today'
+    },{
+        id:'sports',
+        sources: 'bbc-sport,bleacher-report,espn,espn-cric-info,football-italia,four-four-two,fox-sports,nfl-news,nhl-news,talksport,the-sport-bible'
+    },{
+        id:'science',
+        sources:'national-geographic,new-scientist,next-big-future'
+    },{
+        id:'technology',
+        sources: 'ars-technica,crypto-coins-news,engadget,hacker-news,recode,techcrunch,techradar,the-next-web,the-verge,wired'
+    }
+  ]
+
 class results extends Component {
     constructor(props){
         super(props);
@@ -43,7 +76,9 @@ class results extends Component {
             urlCou: '/results',
             category: 'All',
             country: 'All',
-            props:{}
+            props:{},
+            anchorEl1: null,
+            anchorEl2: null,
         }
     }
     
@@ -280,8 +315,73 @@ class results extends Component {
     }
 
     render (){
-        const {loading, news, totalResults, urlCat, urlCou, search,category,country} = this.state;
+        const {loading, news, totalResults, urlCat, urlCou, search,category,country, anchorEl1, anchorEl2 } = this.state;
         const {classes } = this.props;
+        
+        const isMenu1Open = Boolean(anchorEl1);
+        const isMenu2Open = Boolean(anchorEl2);
+   
+        const handleProfileMenu1Open = (event) => {
+          this.setState({anchorEl1: event.currentTarget})
+        };
+        const handleProfileMenu2Open = (event) => {
+          this.setState({anchorEl2: event.currentTarget})
+        };
+        const handleMenu1Close = () => {
+          this.setState({anchorEl1: null})
+        };
+        const handleMenu2Close = () => {
+          this.setState({anchorEl2: null})
+        };
+      
+              const menu1Id = 'categories-menu';
+              const menu2Id = 'countries-menu';
+              const renderMenu1 = (
+                <Menu
+                  anchorEl={anchorEl1}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  id={menu1Id}
+                  keepMounted
+                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  open={isMenu1Open}
+                  onClose={handleMenu1Close}
+                  PaperProps={{
+                    style: {
+                      maxHeight: ITEM_HEIGHT * 8,
+                      width: '100%',
+                      textAlign:'center',
+                      marginTop: '40px'
+                    },
+                  }}
+                >
+                  {categoriesArray.map(category=>(
+                    <MenuItem key={category.id} component={Link} href={`${urlCat}/${category.id}`} to={{ pathname: `${urlCat}/${category.id}`, search: search }} onClick={handleMenu1Close}>{category.id}</MenuItem>
+                  ))}
+                </Menu>
+              );
+              const renderMenu2 = (
+                <Menu
+                  anchorEl={anchorEl2}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  id={menu2Id}
+                  keepMounted
+                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  open={isMenu2Open}
+                  onClose={handleMenu2Close}
+                  PaperProps={{
+                    style: {
+                      maxHeight: ITEM_HEIGHT * 8,
+                      width: '100%',
+                      textAlign:'center',
+                      marginTop: '35px'
+                    },
+                  }}
+                >
+                  {countryArray.map(country=>(
+                    <MenuItem key={country.code+country.label} component={Link} href={`${urlCou}/${country.code.toLowerCase()}`} to={{pathname: `${urlCou}/${country.code.toLowerCase()}`, search: search }} onClick={handleMenu2Close}>{country.label}</MenuItem>
+                  ))}
+                </Menu>
+              );
         let resultsCount = totalResults;
         const headers = [];
         let recentScreamMarkUp = !loading?news.map((scream,ind)=>{
@@ -296,6 +396,8 @@ class results extends Component {
         ):(<NewsSkeleton />)
         return (
             <Grid container spacing={2} className={classes.container}>
+            {renderMenu1}
+            {renderMenu2}
             <Hidden smDown>
             <Grid item md={2}>
                 
@@ -303,8 +405,15 @@ class results extends Component {
             </Hidden>
                 <Grid item md={8} sm={9} xs={12}>
                     {resultsCount && !loading?(
-                    <Typography className={classes.center}  variant='body2' color='textSecondary'>{resultsCount} results for <em>{this.props.location.search.split('?')[1]}</em></Typography>
-                   ):(!loading?(<Typography className={classes.full}  variant='h5' color='textSecondary'>{resultsCount} results for <em>{this.props.location.search.split('?')[1]}</em></Typography>):(''))} 
+                    <Fragment>
+                        <Typography className={classes.center}  variant='body2' color='textSecondary'>{resultsCount} results for <em>{this.props.location.search.split('?')[1]}</em></Typography>
+                        <ButtonGroup disableElevation fullWidth size='small' color="default" aria-label="Filter buttons by country or category or both">
+                        <Button color='default' disabled>Filter</Button>
+                        <Button aria-label="Filter by category" aria-controls={menu1Id} aria-haspopup="true" onClick={handleProfileMenu1Open}>By Category</Button>
+                        <Button aria-label="Filter by country" aria-controls={menu2Id} aria-haspopup="true"  onClick={handleProfileMenu2Open}>By Country</Button>
+                        </ButtonGroup>
+                    </Fragment>
+                   ):(!loading?(<Fragment><Typography className={classes.full}  variant='h5' color='textSecondary'>{resultsCount} results for <em>{this.props.location.search.split('?')[1]}</em></Typography><div style={{ height:'300px' }}></div></Fragment>):(''))} 
                    {category===country?(''):(
                        <Filters country={country} category={category} search={search} param1={this.state.props.match.params.param1} />
                    )}

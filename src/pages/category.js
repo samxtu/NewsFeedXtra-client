@@ -15,6 +15,7 @@ import Categories from '../components/Categories';
 import Countries from '../components/Countries';
 import NewsSkeleton from '../components/NewsSkeleton';
 import countryArray from '../util/consts';
+import ReadMore from '../components/ReadMore';
 // api initialization
 const gnewsapiproxy = 'https://us-central1-worldnews-bf737.cloudfunctions.net/api';
 
@@ -88,6 +89,8 @@ const styles = (theme) => ({
         }
     },
     titleheader: {
+        color: '#f4976c', 
+        fontColor: '#f4976c',
         [theme.breakpoints.only('xs')]: {
             fontSize: '1.5rem'
           },
@@ -418,9 +421,11 @@ class category extends Component {
                 <Grid item md={8} sm={9} xs={12}>
                     {!loading&&countryCovered&&countryNews.length>0&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+myCountry.toLowerCase()+'/'+this.state.category} to={'/country/'+myCountry.toLowerCase()+'/'+this.state.category} variant='h4' color='textPrimary'><b>{this.state.category}: {countryArray.filter(country => country.code === myCountry)[0].label} <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
                     {countryScreamMarkUp}
+                    {!loading&&countryCovered&&countryNews.length>0&&(<ReadMore link={'/country/'+myCountry.toLowerCase()+'/'+this.state.category} />)}
                     {!loading&&countryCovered&&countryNews.length>0&&(<br/>)}
-                    {!loading&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/top-stories/'+this.state.category} to={'/top-stories/'+this.state.category} variant='h4' color='textPrimary'><b>{this.state.category}: World headlines <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
+                    {!loading&&news.length>0&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/top-stories/'+this.state.category} to={'/top-stories/'+this.state.category} variant='h4' color='textPrimary'><b>{this.state.category}: World headlines <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
                     {recentScreamMarkUp}
+                    {!loading&&news.length>0&&(<ReadMore link={'/top-stories/'+this.state.category} />)}
                 </Grid>
                 <Hidden xsDown>
                     <Grid item md={2} sm={3} xs={12}>

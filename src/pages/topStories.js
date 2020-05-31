@@ -64,6 +64,10 @@ const styles = () => ({
       margin:'auto',
       left:'45%'
     },
+    breadcrumb:{
+        color: '#f4976c', 
+        fontColor: '#f4976c'
+    }
   });
 
 class home extends Component {
@@ -411,13 +415,13 @@ class home extends Component {
                 </Hidden>
                 <Grid item md={8} sm={9} xs={12}>
                     {!loading&&(<Fragment><Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" className={classes.breadcrumb}>
-                        <Typography color="textPrimary" variant='body2'>
+                        <Typography variant='body2'>
                         Top stories:
                         </Typography>
-                        {param1Name?<MuiLink color="textPrimary" component={Link} href={linkToParam1} to={linkToParam1}>
-                        <Typography variant='body1' color='textPrimary'>{param1Name}</Typography>
+                        {param1Name?<MuiLink className={classes.breadcrumb} component={Link} href={linkToParam1} to={linkToParam1}>
+                        <Typography variant='body1'>{param1Name}</Typography>
                         </MuiLink>:null}
-                        <Typography color="textPrimary" variant='body1'>{param2Name}</Typography>
+                        <Typography variant='body1'>{param2Name}</Typography>
                     </Breadcrumbs>
                     <hr/></Fragment>)}
                     {recentScreamMarkUp}

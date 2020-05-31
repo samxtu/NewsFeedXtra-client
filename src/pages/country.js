@@ -19,6 +19,7 @@ import Categories from '../components/Categories';
 import Countries from '../components/Countries';
 import NewsSkeleton from '../components/NewsSkeleton';
 import countryArray from '../util/consts';
+import ReadMore from '../components/ReadMore';
 
 const gnewsapiproxy = 'https://us-central1-worldnews-bf737.cloudfunctions.net/api';
 const categoriesArray = [
@@ -90,6 +91,8 @@ const styles = (theme) => ({
         }
     },
     titleheader: {
+        color: '#f4976c', 
+        fontColor: '#f4976c',
         [theme.breakpoints.only('xs')]: {
             fontSize: '1.5rem'
           },
@@ -799,7 +802,6 @@ class country extends Component {
                 {fetchError}
                 <Hidden smDown>
                 <Grid item md={2}>
-                    
                 </Grid></Hidden>
                 <Grid item md={8} sm={9} xs={12}>
                     {category !== 'All'&&recentScreamMarkUp}
@@ -817,11 +819,12 @@ class country extends Component {
                             })
                         }}>
                         <Fragment>
-                        {!loading&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/general'} to={'/country/'+country+'/general'} variant='h4' color='textPrimary'><b>General <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
+                        {!loading&&general.length>0&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/general'} to={'/country/'+country+'/general'} variant='h4' color='textPrimary'><b>General <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
                         {generalMarkup}
+                        {!loading&&general.length>0&&(<ReadMore link={'/country/'+country+'/general'} />)}
                         </Fragment>
                         </VizSensor>
-                        <br/>
+                        {!loading&&general.length>0&&(<br/>)}
                         <VizSensor 
                         partialVisibility={true}
                         active={entertainmentActive}
@@ -833,11 +836,12 @@ class country extends Component {
                             })
                         }}>
                         <Fragment>
-                        {!loading&&entertainmentViz&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/entertainment'} to={'/country/'+country+'/entertainment'} variant='h4' color='textPrimary'><b>Entertainment <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
+                        {!loading&&entertainmentViz&&entertainment.length>0&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/entertainment'} to={'/country/'+country+'/entertainment'} variant='h4' color='textPrimary'><b>Entertainment <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
                         {entertainmentMarkup}
+                        {!loading&&entertainmentViz&&entertainment.length>0&&(<ReadMore link={'/country/'+country+'/entertainment'} />)}
                         </Fragment>
                         </VizSensor>
-                        <br/>
+                        {!loading&&entertainmentViz&&entertainment.length>0&&(<br/>)}
                         <VizSensor 
                         partialVisibility={true}
                         active={businessActive}
@@ -849,11 +853,12 @@ class country extends Component {
                             })
                         }}>
                         <Fragment>
-                        {!loading&&businessViz&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/business'} to={'/country/'+country+'/business'} variant='h4' color='textPrimary'><b>Business <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
+                        {!loading&&businessViz&&business.length>0&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/business'} to={'/country/'+country+'/business'} variant='h4' color='textPrimary'><b>Business <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
                         {businessMarkup}
+                        {!loading&&businessViz&&business.length>0&&(<ReadMore link={'/country/'+country+'/business'} />)}
                         </Fragment>
                         </VizSensor>
-                        <br/>
+                        {!loading&&businessViz&&business.length>0&&(<br/>)}
                         <VizSensor 
                         partialVisibility={true}
                         active={healthActive}
@@ -865,11 +870,12 @@ class country extends Component {
                             })
                         }}>
                         <Fragment>
-                        {!loading&&healthViz&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/health'} to={'/country/'+country+'/health'} variant='h4' color='textPrimary'><b>Health <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
+                        {!loading&&healthViz&&health.length>0&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/health'} to={'/country/'+country+'/health'} variant='h4' color='textPrimary'><b>Health <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
                         {healthMarkup}
+                        {!loading&&healthViz&&health.length>0&&(<ReadMore link={'/country/'+country+'/health'} />)}
                         </Fragment>
                         </VizSensor>
-                        <br/>
+                        {!loading&&healthViz&&health.length>0&&(<br/>)}
                         <VizSensor 
                         partialVisibility={true}
                         active={scienceActive}
@@ -881,11 +887,12 @@ class country extends Component {
                             })
                         }}>
                         <Fragment>
-                        {!loading&&scienceViz&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/science'} to={'/country/'+country+'/science'} variant='h4' color='textPrimary'><b>Science <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
+                        {!loading&&scienceViz&&science.length>0&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/science'} to={'/country/'+country+'/science'} variant='h4' color='textPrimary'><b>Science <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
                         {scienceMarkup}
+                        {!loading&&scienceViz&&science.length>0&&(<ReadMore link={'/country/'+country+'/science'} />)}
                         </Fragment>
                         </VizSensor>
-                        <br/>
+                        {!loading&&scienceViz&&science.length>0&&(<br/>)}
                         <VizSensor 
                         partialVisibility={true}
                         active={sportsActive}
@@ -896,13 +903,15 @@ class country extends Component {
                             })
                         }}>
                         <Fragment>
-                        {!loading&&sportsViz&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/sports'} to={'/country/'+country+'/sports'} variant='h4' color='textPrimary'><b>Sports <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
+                        {!loading&&sportsViz&&sports.length>0&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/sports'} to={'/country/'+country+'/sports'} variant='h4' color='textPrimary'><b>Sports <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
                         {sportsMarkup}
+                        {!loading&&sportsViz&&sports.length>0&&(<ReadMore link={'/country/'+country+'/sports'} />)}
                         </Fragment>
                         </VizSensor>
-                        <br/>
-                        {!loading&&technologyViz&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/technology'} to={'/country/'+country+'/technology'} variant='h4' color='textPrimary'><b>Technology <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
+                        {!loading&&sportsViz&&sports.length>0&&(<br/>)}
+                        {!loading&&technologyViz&&technology.length>0&&(<Fragment><Typography className={classes.titleheader} component={Link} href={'/country/'+country+'/technology'} to={'/country/'+country+'/technology'} variant='h4' color='textPrimary'><b>Technology <ChevronRightIcon className={classes.muiIcons} /></b></Typography><hr/></Fragment>)}
                         {technologyMarkup}
+                        {!loading&&technologyViz&&technology.length>0&&(<ReadMore link={'/country/'+country+'/technology'} />)}
                     </Fragment>
                     )}
                 </Grid>
