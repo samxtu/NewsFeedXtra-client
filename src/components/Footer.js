@@ -23,14 +23,14 @@ class Footer extends Component {
   }
   render() {
     const {classes} = this.props;
-    const linktoapi = 'https://newsapi.org';
+    const linktoapi = 'https://www.linkedin.com/in/samwel-ngwale-12363811a/';
     return (
       <Fragment>
         <Paper className={classes.paper}>
           <hr className={classes.paper} />
-          <Typography component={Link} to={linktoapi} target="_blank" rel="noopener" variant="body2" color="primary">Powered by: News API</Typography>
+          <Typography component={Link} to={linktoapi} target="_blank" rel="noopener" variant="body2" color="primary">Powered by: Samwel Ngwale</Typography>
           <hr className={classes.paper} />
-          <Typography variant="body2" color="primary">&#169; JECS&trade; 2020</Typography>
+          <Typography variant="body2" color="primary">&#169; Samwel Ngwale&trade; 2022</Typography>
         </Paper>
       </Fragment>
   );
