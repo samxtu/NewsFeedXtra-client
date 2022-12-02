@@ -30,7 +30,7 @@ class Footer extends Component {
           <Typography
             component={Link}
             aria-label="Link to developer of the site"
-            to={{ pathname: '/redirect', hash: linktoapi }} target="_blank" rel="noopener"
+            to={{ pathname: '/redirect', hash: linktoapi }}
             target="_blank"
             rel="noopener"
             variant="body2"
