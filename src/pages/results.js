@@ -21,7 +21,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
 //newsapi
-const gnewsapiproxy = 'https://us-central1-worldnews-bf737.cloudfunctions.net/api';
+const gnewsapiproxy = 'https://newsfeedxtra-api.netlify.app/.netlify/functions/server';
 
 const ITEM_HEIGHT = 48;
 const styles = theme => ({

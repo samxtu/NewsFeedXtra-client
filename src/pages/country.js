@@ -21,7 +21,7 @@ import NewsSkeleton from '../components/NewsSkeleton';
 import countryArray from '../util/consts';
 import ReadMore from '../components/ReadMore';
 
-const gnewsapiproxy = 'https://us-central1-worldnews-bf737.cloudfunctions.net/api';
+const gnewsapiproxy = 'https://newsfeedxtra-api.netlify.app/.netlify/functions/server';
 const categoriesArray = [
     {
         id: 'general',
